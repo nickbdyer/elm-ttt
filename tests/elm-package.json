@@ -1,11 +1,11 @@
 {
     "version": "1.0.0",
-    "summary": "TicTacToe in Elm-Lang",
+    "summary": "TTT Tests",
     "repository": "https://github.com/nickbdyer/elm-ttt.git",
     "license": "MIT",
     "source-directories": [
-        "src",
-        "tests"
+        ".",
+        "../src"
     ],
     "exposed-modules": [],
     "dependencies": {
@@ -14,5 +14,5 @@
         "elm-community/elm-test": "2.0.0 <= v < 3.0.0",
         "rtfeldman/node-test-runner": "2.0.0 <= v < 3.0.0"
     },
-    "elm-version": "0.17.1 <= v < 0.18.0"
+    "elm-version": "0.17.0 <= v < 0.18.0"
 }
