@@ -13,24 +13,22 @@ showBoard board =
 showRows : Board -> List (Html a)
 showRows board =
   (create2DBoard board)
-    |> List.map (\line -> div [] (showCells line))
+    |> List.map (\line -> div [] (showCells line)) 
 
 
 showCells line =
   line
-    |> map (\cell -> button [] [(text cell)])
-    |> toList
+    |> List.map (\cell -> button [] [(text cell)])
 
 
-create2DBoard : Board -> List (Array String)
+create2DBoard : Board -> List (List String)
 create2DBoard board =
   let
-      size = length board
-      width = sqrt (toFloat size)
-      iter = initialize (round width) (\n -> (round width*n))
-      rowSlicePoints = map (\num -> (num, (num + (round width)))) iter
+      width = round (sqrt (toFloat (length board)))
+      iter = initialize width (\n -> width*n)
+      rowSlicePoints = map (\num -> (num, (num + width))) iter
   in
       rowSlicePoints
-        |> map (\tuple -> slice (fst tuple) (snd tuple) board)
+        |> map (\tuple -> toList (slice (fst tuple) (snd tuple) board))
         |> toList
 
