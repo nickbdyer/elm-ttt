@@ -1,4 +1,7 @@
 module Board exposing (..)
 
-model : String
-model = ""
+type alias Board = List String
+
+new : Board
+new = 
+  []
