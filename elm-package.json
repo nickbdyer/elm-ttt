@@ -4,8 +4,7 @@
     "repository": "https://github.com/nickbdyer/elm-ttt.git",
     "license": "MIT",
     "source-directories": [
-        "src",
-        "tests"
+        "src"
     ],
     "exposed-modules": [],
     "dependencies": {

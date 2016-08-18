@@ -1,9 +1,14 @@
-language: haskell
-install:
-  - npm install -g elm
-  - npm install -g elm-test
-  - elm-package install -y
 cache:
   directories:
-    - elm-stuff/build-artifacts
-script: elm-test
+    - tests/elm-stuff/build-artifacts
+
+install:
+  - nvm install 4.0
+  - nvm use 4.0
+  - node --version
+  - npm --version
+  - cd tests
+  - npm install -g elm@0.17.0 elm-test
+
+script: 
+  - elm-test
