@@ -3,7 +3,7 @@ module BoardTest exposing (..)
 import Test exposing (..)
 import Board exposing (..)
 import Expect
-import List exposing (isEmpty, length)
+import Array exposing (isEmpty, length)
 
 
 all : Test
@@ -25,6 +25,5 @@ all =
                 |> Board.mark 4 "X" 
                 |> Board.markAt 4
                 |> Expect.equal "X"
-
         ]
 

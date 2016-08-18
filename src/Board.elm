@@ -1,8 +1,8 @@
 module Board exposing (..)
 
-import List exposing (repeat, take, drop, head)
+import Array exposing (Array, repeat, set, get)
 
-type alias Board = List String
+type alias Board = Array String
 
 new : Int -> Board
 new size = 
@@ -10,16 +10,10 @@ new size =
 
 mark : Int -> String -> Board -> Board
 mark position symbol board =
-  let
-      start = take (position - 1) board
-      end = drop position board
-      newMark = [symbol]
-  in
-      start ++ newMark ++ end
+  set position symbol board
+
 
 markAt : Int -> Board -> String
 markAt position board =
-  board
-    |> drop (position - 1)
-    |> head
-    |> Maybe.withDefault ""
+  get position board
+    |> Maybe.withDefault "" 
