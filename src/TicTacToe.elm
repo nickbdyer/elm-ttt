@@ -1,6 +1,6 @@
 module TicTacToe exposing (..)
 
-import Html exposing (Html, div)
+import Html exposing (Html, div, h1, text)
 import Html.App as Html
 
 main = 
@@ -28,6 +28,5 @@ update msg model =
 
 view : Model -> Html Msg
 view model = 
-  div [] []
-  
+  h1 [] [ text "Tic Tac Toe" ]
 
