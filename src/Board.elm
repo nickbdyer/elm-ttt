@@ -1,7 +1,9 @@
 module Board exposing (..)
 
+import List exposing (repeat)
+
 type alias Board = List String
 
-new : Board
-new = 
-  []
+new : Int -> Board
+new size = 
+  repeat size ""
