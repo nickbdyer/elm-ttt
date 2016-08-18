@@ -3,7 +3,7 @@ module TicTacToe exposing (..)
 import Html exposing (Html, div, h1, text)
 import Html.App as Html
 import Board exposing (Board, new, mark)
-import UI exposing (showBoard)
+import UI exposing (Msg(..), showBoard)
 import Array exposing (initialize)
 
 main = 
@@ -19,13 +19,11 @@ model =
 
 -- UPDATE
 
-type Msg = Mark
-
 update : Msg -> Model -> Model
 update msg model = 
   case msg of 
     Mark -> 
-      Board.new 9
+      Board.mark 4 "X" model
 
 -- VIEW
 

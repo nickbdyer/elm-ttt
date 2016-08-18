@@ -1,24 +1,28 @@
-module UI exposing (showBoard)
+module UI exposing (showBoard, Msg(..))
 
 import Html exposing (Html, div, text, button)
 import Html.App as Html
+import Html.Events exposing (onClick)
 import Board exposing (Board)
 import Array exposing (Array, length, map, initialize, slice, toList)
 
-showBoard : Board -> Html a
+type Msg = Mark
+
+showBoard : Board -> Html Msg
 showBoard board =
   div [] (showRows board)
 
 
-showRows : Board -> List (Html a)
+showRows : Board -> List (Html Msg)
 showRows board =
   (create2DBoard board)
     |> List.map (\line -> div [] (showCells line)) 
 
 
+showCells : List String -> List (Html Msg)
 showCells line =
   line
-    |> List.map (\cell -> button [] [(text cell)])
+    |> List.map (\cell -> button [onClick Mark] [(text cell)])
 
 
 create2DBoard : Board -> List (List String)
