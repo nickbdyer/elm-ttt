@@ -7,7 +7,6 @@ install:
   - nvm use 4.0
   - node --version
   - npm --version
-  - cd tests
   - npm install -g elm@0.17.0 elm-test
 
 script: 
