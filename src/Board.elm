@@ -2,18 +2,21 @@ module Board exposing (..)
 
 import Array exposing (Array, repeat, set, get)
 
-type alias Board = Array String
+type Mark = X | O
+
+type alias Board = Array (Maybe Mark)
+
 
 new : Int -> Board
 new size = 
-  repeat size ""
+  repeat size Nothing
 
-mark : Int -> String -> Board -> Board
+
+mark : Int -> Mark -> Board -> Board
 mark position symbol board =
-  set position symbol board
+  set position (Just symbol) board
 
 
-markAt : Int -> Board -> String
+markAt : Int -> Board -> Maybe (Maybe Mark)
 markAt position board =
   get position board
-    |> Maybe.withDefault "" 
