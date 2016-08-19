@@ -3,8 +3,8 @@ module UI exposing (..)
 import Html exposing (Html, div, text, button)
 import Html.App as Html
 import Html.Events exposing (onClick)
-import Board exposing (Board, Mark(..))
-import Array exposing (Array, length, map, initialize, slice, toList)
+import Board exposing (Board, Mark(..), getWidth)
+import Array exposing (Array, map, initialize, slice, toList)
 
 type Msg = Mark
 
@@ -28,7 +28,7 @@ showCells line =
 create2DBoard : Board -> List (List (Maybe Mark))
 create2DBoard board =
   let
-      width = getBoardWidth board
+      width = getWidth board
       iter = initialize width (\n -> width*n)
       rowSlicePoints = map (\num -> (num, (num + width))) iter
   in
@@ -36,8 +36,4 @@ create2DBoard board =
         |> map (\tuple -> toList (slice (fst tuple) (snd tuple) board))
         |> toList
 
-
-getBoardWidth : Board -> Int
-getBoardWidth board = 
-  round (sqrt (toFloat (length board)))
 

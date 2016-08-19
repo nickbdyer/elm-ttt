@@ -28,5 +28,14 @@ all =
                 |> get 4
                 |> Expect.equal (Just (Just X))
 
+        , test "A board of size 9 has a row width of 3" <|
+            \() ->
+              getWidth (Board.new 9)
+                |> Expect.equal 3
+
+        , test "A board of size 16 has a row width of 4" <|
+            \() ->
+              getWidth (Board.new 16)
+                |> Expect.equal 4
         ]
 

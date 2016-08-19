@@ -1,6 +1,6 @@
 module Board exposing (..)
 
-import Array exposing (Array, repeat, set, get)
+import Array exposing (Array, length, repeat, set, get)
 
 type Mark = X | O
 
@@ -15,4 +15,10 @@ new size =
 mark : Int -> Mark -> Board -> Board
 mark position symbol board =
   set position (Just symbol) board
+
+
+getWidth : Board -> Int
+getWidth board = 
+  round (sqrt (toFloat (length board)))
+
 
