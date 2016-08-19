@@ -14,16 +14,19 @@ all =
             \() ->
               Board.new 9
                 |> Expect.equal (repeat 9 Nothing)
+
         , test "A board can be given a size" <|
             \() ->
               Board.new 9
                 |> length
                 |> Expect.equal 9 
+
         , test "A board can be marked" <|
             \() ->
               Board.new 9
                 |> Board.mark 4 X 
                 |> Board.markAt 4
                 |> Expect.equal (Just (Just X))
+
         ]
 
