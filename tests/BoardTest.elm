@@ -3,7 +3,7 @@ module BoardTest exposing (..)
 import Test exposing (..)
 import Expect
 
-import Array exposing (length)
+import Array exposing (length, repeat)
 
 import Board exposing (..)
 
@@ -13,7 +13,7 @@ all =
         [ test "A new board is empty" <|
             \() ->
               Board.new 9
-                |> Expect.equal [Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing]
+                |> Expect.equal (repeat 9 Nothing)
         , test "A board can be given a size" <|
             \() ->
               Board.new 9
@@ -24,6 +24,6 @@ all =
               Board.new 9
                 |> Board.mark 4 X 
                 |> Board.markAt 4
-                |> Expect.equal X
+                |> Expect.equal (Just (Just X))
         ]
 

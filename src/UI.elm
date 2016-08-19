@@ -3,7 +3,7 @@ module UI exposing (showBoard, Msg(..))
 import Html exposing (Html, div, text, button)
 import Html.App as Html
 import Html.Events exposing (onClick)
-import Board exposing (Board)
+import Board exposing (Board, Mark)
 import Array exposing (Array, length, map, initialize, slice, toList)
 
 type Msg = Mark
@@ -15,17 +15,16 @@ showBoard board =
 
 showRows : Board -> List (Html Msg)
 showRows board =
-  (create2DBoard board)
-    |> List.map (\line -> div [] (showCells line)) 
+    List.map (\line -> div [] (showCells line)) (create2DBoard board)
 
 
-showCells : List String -> List (Html Msg)
+showCells : List (Maybe Mark) -> List (Html Msg)
 showCells line =
   line
-    |> List.map (\cell -> button [onClick Mark] [(text cell)])
+    |> List.map (\cell -> button [onClick Mark] [(text (toString cell))])
 
 
-create2DBoard : Board -> List (List String)
+create2DBoard : Board -> List (List (Maybe Mark))
 create2DBoard board =
   let
       width = round (sqrt (toFloat (length board)))
