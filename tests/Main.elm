@@ -1,8 +1,6 @@
 port module Main exposing (..)
 
 import Tests
-import BoardTest
-import TicTacToeTest
 import Test.Runner.Node exposing (run)
 import Json.Encode exposing (Value)
 

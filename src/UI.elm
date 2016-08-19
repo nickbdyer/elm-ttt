@@ -1,4 +1,4 @@
-module UI exposing (showBoard, Msg(..))
+module UI exposing (showBoard, create2DBoard, Msg(..))
 
 import Html exposing (Html, div, text, button)
 import Html.App as Html
