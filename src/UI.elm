@@ -3,7 +3,7 @@ module UI exposing (..)
 import Html exposing (Html, div, text, button)
 import Html.App as Html
 import Html.Events exposing (onClick)
-import Board exposing (Board, Mark)
+import Board exposing (Board, Mark(..))
 import Array exposing (Array, length, map, initialize, slice, toList)
 
 type Msg = Mark
@@ -21,7 +21,8 @@ showRows board =
 showCells : List (Maybe Mark) -> List (Html Msg)
 showCells line =
   line
-    |> List.map (\cell -> button [onClick Mark] [(text (toString cell))])
+    |> List.map (\mark -> Maybe.map toString mark)
+    |> List.map (\cell -> button [onClick Mark] [text (Maybe.withDefault "" cell)])
 
 
 create2DBoard : Board -> List (List (Maybe Mark))
