@@ -1,4 +1,4 @@
-module UI exposing (showBoard, create2DBoard, Msg(..))
+module UI exposing (..)
 
 import Html exposing (Html, div, text, button)
 import Html.App as Html
@@ -27,11 +27,16 @@ showCells line =
 create2DBoard : Board -> List (List (Maybe Mark))
 create2DBoard board =
   let
-      width = round (sqrt (toFloat (length board)))
+      width = getBoardWidth board
       iter = initialize width (\n -> width*n)
       rowSlicePoints = map (\num -> (num, (num + width))) iter
   in
       rowSlicePoints
         |> map (\tuple -> toList (slice (fst tuple) (snd tuple) board))
         |> toList
+
+
+getBoardWidth : Board -> Int
+getBoardWidth board = 
+  round (sqrt (toFloat (length board)))
 
