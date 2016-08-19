@@ -3,7 +3,7 @@ module BoardTest exposing (..)
 import Test exposing (..)
 import Expect
 
-import Array exposing (length, repeat)
+import Array exposing (length, repeat, get)
 
 import Board exposing (..)
 
@@ -25,7 +25,7 @@ all =
             \() ->
               Board.new 9
                 |> Board.mark 4 X 
-                |> Board.markAt 4
+                |> get 4
                 |> Expect.equal (Just (Just X))
 
         ]

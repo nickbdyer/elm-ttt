@@ -16,7 +16,3 @@ mark : Int -> Mark -> Board -> Board
 mark position symbol board =
   set position (Just symbol) board
 
-
-markAt : Int -> Board -> Maybe (Maybe Mark)
-markAt position board =
-  get position board
