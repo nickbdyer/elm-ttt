@@ -4,8 +4,7 @@ import Html exposing (Html, div, text, button)
 import Html.App as Html
 import Html.Events exposing (onClick)
 
-import Board exposing (Board, Mark(..), getWidth, getRows)
-import Array exposing (Array, map, initialize, slice, toList)
+import Board exposing (Board, Row, Mark(..), getRows)
 
 type Msg = Mark
 
@@ -16,11 +15,11 @@ showBoard board =
 
 showRows : Board -> List (Html Msg)
 showRows board =
-    List.map (\line -> div [] (showCells line)) (getRows board)
+    Board.map (\line -> div [] (showCells line)) (getRows board)
 
 
-showCells : List (Maybe Mark) -> List (Html Msg)
+showCells : Row -> List (Html Msg)
 showCells line =
   line
-    |> List.map (\mark -> Maybe.map toString mark)
-    |> List.map (\cell -> button [onClick Mark] [text (Maybe.withDefault "" cell)])
+    |> Board.map (\mark -> Maybe.map toString mark)
+    |> Board.map (\cell -> button [onClick Mark] [text (Maybe.withDefault "" cell)])

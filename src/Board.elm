@@ -5,6 +5,7 @@ import Array exposing (Array, length, repeat, set, get, map, slice, initialize, 
 type Mark = X | O
 
 type alias Board = Array (Maybe Mark)
+type alias Row = List (Maybe Mark)
 
 
 new : Int -> Board
@@ -27,8 +28,13 @@ getRows board =
   let
       width = getWidth board
       iter = initialize width (\n -> width*n)
-      rowSlicePoints = map (\num -> (num, (num + width))) iter
+      rowSlicePoints = Array.map (\num -> (num, (num + width))) iter
   in
       rowSlicePoints
-        |> map (\tuple -> toList (slice (fst tuple) (snd tuple) board))
+        |> Array.map (\tuple -> toList (slice (fst tuple) (snd tuple) board))
         |> toList
+
+
+map : (a -> b) -> List a -> List b
+map function board = 
+  List.map function board
