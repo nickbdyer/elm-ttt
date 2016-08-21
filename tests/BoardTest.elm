@@ -37,5 +37,11 @@ all =
             \() ->
               getWidth (Board.new 16)
                 |> Expect.equal 4
+
+        , test "Board can be retrived as 2D a collection of rows" <|
+            \() ->
+              getRows (Board.new 9)
+                |> Expect.equal (List.repeat 3 (List.repeat 3 Nothing))
+
         ]
 
