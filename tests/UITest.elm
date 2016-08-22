@@ -4,15 +4,16 @@ import Test exposing (..)
 import Expect
 import Html exposing (Html, div, text, button)
 import Html.Events exposing (onClick)
+import Array exposing (fromList)
 
-import Board exposing (new)
+import Board exposing (Mark(..), new)
 import UI exposing (sliceInRows, showBoard, Msg(..), getWidth)
 
 
 all : Test
 all =
     describe "UI Test"
-        [test "UI can display the board" <|
+        [ test "UI can display the board" <|
           \() -> 
             showBoard (Board.new 9)
               |> Expect.equal (div [] [
@@ -25,6 +26,33 @@ all =
                   button [onClick (Mark 3)] [text ""],
                   button [onClick (Mark 4)] [text ""],
                   button [onClick (Mark 5)] [text ""]
+                  ]
+                  , div [] [
+                  button [onClick (Mark 6)] [text ""],
+                  button [onClick (Mark 7)] [text ""],
+                  button [onClick (Mark 8)] [text ""]
+                  ]
+               ])
+
+        , test "Cells with marks do not have onClick events" <|
+          \() -> 
+            let
+                boardList = [Nothing, Nothing, Nothing, 
+                             Just X, Just O, Just X, 
+                             Nothing, Nothing, Nothing]
+                board = fromList boardList
+            in
+              showBoard board               
+              |> Expect.equal (div [] [
+                div [] [
+                  button [onClick (Mark 0)] [text ""],
+                  button [onClick (Mark 1)] [text ""],
+                  button [onClick (Mark 2)] [text ""]
+                  ]
+                  , div [] [
+                  button [] [text "X"],
+                  button [] [text "O"],
+                  button [] [text "X"]
                   ]
                   , div [] [
                   button [onClick (Mark 6)] [text ""],
