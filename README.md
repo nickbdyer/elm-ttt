@@ -20,8 +20,18 @@ $ cd elm-ttt
 $ elm-package install
 ```
 
+### Run
+
+```
+$ elm-make src/TicTacToe.elm --output elm.js
+
+$ open index.html
+
+```
+
 ### Run Tests
 
 ```
-$ sh runtests.sh
+$ elm-test
+
 ```
