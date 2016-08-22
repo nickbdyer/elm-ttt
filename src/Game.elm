@@ -1,4 +1,4 @@
-module Game exposing (new, takeTurn)
+module Game exposing (Game, new, takeTurn)
 
 import Board exposing (Board, Mark(..), mark)
 

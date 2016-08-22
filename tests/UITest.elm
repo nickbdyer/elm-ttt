@@ -17,19 +17,19 @@ all =
             showBoard (Board.new 9)
               |> Expect.equal (div [] [
                 div [] [
-                  button [onClick Mark] [text ""],
-                  button [onClick Mark] [text ""],
-                  button [onClick Mark] [text ""]
+                  button [onClick (Mark 1)] [text ""],
+                  button [onClick (Mark 1)] [text ""],
+                  button [onClick (Mark 1)] [text ""]
                   ]
                   , div [] [
-                  button [onClick Mark] [text ""],
-                  button [onClick Mark] [text ""],
-                  button [onClick Mark] [text ""]
+                  button [onClick (Mark 1)] [text ""],
+                  button [onClick (Mark 1)] [text ""],
+                  button [onClick (Mark 1)] [text ""]
                   ]
                   , div [] [
-                  button [onClick Mark] [text ""],
-                  button [onClick Mark] [text ""],
-                  button [onClick Mark] [text ""]
+                  button [onClick (Mark 1)] [text ""],
+                  button [onClick (Mark 1)] [text ""],
+                  button [onClick (Mark 1)] [text ""]
                   ]
                ])
         ]
