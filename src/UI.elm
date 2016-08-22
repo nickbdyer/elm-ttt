@@ -26,7 +26,10 @@ showCells : Row -> List (Html Msg)
 showCells line =
   line
     |> List.map (\mark -> ((fst mark), (Maybe.map toString (snd mark))))
-    |> List.map (\cell -> button [onClick (Mark (fst cell))] [text (Maybe.withDefault "" (snd cell))])
+    |> List.map (\cell -> 
+      case (snd cell) of
+        Just symbol -> button [] [text symbol]
+        Nothing -> button [onClick (Mark (fst cell))] [text (Maybe.withDefault "" (snd cell))])
 
 
 sliceInRows : Board -> List (List (Int, Maybe Mark))
@@ -58,3 +61,5 @@ embedIndexes board =
 getWidth : Array a -> Int
 getWidth board = 
   round (sqrt (toFloat (length board)))
+
+
