@@ -9,3 +9,6 @@ new board =
   {board = board, currentPlayer = X}
 
 
+takeTurn : Game -> Game
+takeTurn game = 
+  {game | currentPlayer = O }
