@@ -1,4 +1,4 @@
-module Game exposing (..)
+module Game exposing (new, takeTurn)
 
 import Board exposing (Board, Mark(..))
 
@@ -11,4 +11,11 @@ new board =
 
 takeTurn : Game -> Game
 takeTurn game = 
-  {game | currentPlayer = O }
+  {game | currentPlayer = opponent game.currentPlayer }
+
+
+opponent : Mark -> Mark
+opponent mark = 
+  case mark of
+    X -> O
+    O -> X
