@@ -23,6 +23,19 @@ all =
                   |> get 5
                   |> Expect.equal (Just (Just X))
 
+        , test "When a cell is clicked twice, the first move remains" <|
+            \() ->
+              let 
+                game = (Game.new (Board.new 9))
+              in
+                game
+                  |> update (Mark 5)
+                  |> update (Mark 5)
+                  |> .board
+                  |> get 5
+                  |> Expect.equal (Just (Just X))
+
+
         ]
 
 
