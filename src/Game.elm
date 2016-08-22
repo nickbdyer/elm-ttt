@@ -1,6 +1,6 @@
 module Game exposing (new, takeTurn)
 
-import Board exposing (Board, Mark(..))
+import Board exposing (Board, Mark(..), mark)
 
 type alias Game = {board : Board, currentPlayer : Mark}
 
@@ -9,9 +9,10 @@ new board =
   {board = board, currentPlayer = X}
 
 
-takeTurn : Game -> Game
-takeTurn game = 
-  {game | currentPlayer = opponent game.currentPlayer }
+takeTurn : Int -> Game -> Game
+takeTurn position game = 
+  {game | board = mark position game.currentPlayer game.board,
+          currentPlayer = opponent game.currentPlayer }
 
 
 opponent : Mark -> Mark

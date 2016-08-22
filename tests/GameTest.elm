@@ -18,15 +18,15 @@ all =
         , test "After processing a turn, the currentPlayer is O" <|
             \() ->
               (Game.new (Board.new 9))
-                |> takeTurn
+                |> takeTurn 4
                 |> .currentPlayer
                 |> Expect.equal O
 
         , test "After processing two turns, the currentPlayer is X" <|
             \() ->
               (Game.new (Board.new 9))
-                |> takeTurn
-                |> takeTurn
+                |> takeTurn 4
+                |> takeTurn 5
                 |> .currentPlayer
                 |> Expect.equal X
         ]
