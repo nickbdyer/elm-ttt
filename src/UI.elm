@@ -1,6 +1,6 @@
 module UI exposing (Msg(..), showBoard, sliceInRows, getWidth)
 
-import Html exposing (Html, div, text, button)
+import Html exposing (Html, div, text, button, table, tr, td)
 import Html.App as Html
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (value)
@@ -14,12 +14,12 @@ type alias Row = List (Int, Maybe Mark)
 
 showBoard : Board -> Html Msg
 showBoard board =
-  div [] (showRows board)
+  table [] (showRows board)
 
 
 showRows : Array (Maybe Mark) -> List (Html Msg)
 showRows board =
-    List.map (\line -> div [] (showCells line)) (sliceInRows board)
+    List.map (\line -> tr [] (showCells line)) (sliceInRows board)
 
 
 showCells : Row -> List (Html Msg)
@@ -28,8 +28,8 @@ showCells line =
     |> List.map (\mark -> ((fst mark), (Maybe.map toString (snd mark))))
     |> List.map (\cell -> 
       case (snd cell) of
-        Just symbol -> button [] [text symbol]
-        Nothing -> button [onClick (Mark (fst cell))] [text (Maybe.withDefault "" (snd cell))])
+        Just symbol -> td [] [button [] [text symbol]]
+        Nothing -> td [] [button [onClick (Mark (fst cell))] [text ""]])
 
 
 sliceInRows : Board -> List (List (Int, Maybe Mark))
