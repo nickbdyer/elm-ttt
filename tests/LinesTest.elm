@@ -19,5 +19,13 @@ all =
                 |> Expect.equal (fromList [ fromList [Just X, Just O, Just O] 
                                           , fromList [Just O, Just X, Just X]
                                           , fromList [Just X, Just O, Just X] ])
+
+        , test "A board can be split into columns" <|
+            \() ->
+              createFullBoard
+                |> getColumns
+                |> Expect.equal (fromList [ fromList [Just X, Just O, Just X] 
+                                          , fromList [Just O, Just X, Just O]
+                                          , fromList [Just O, Just X, Just X] ])
         ]
 
