@@ -2,28 +2,30 @@ module TicTacToe exposing (..)
 
 import Html exposing (Html, div, h1, text)
 import Html.App as Html
-import Board exposing (Board, Mark(..), new, mark)
+import Board exposing (Board, Mark(..), new)
 import UI exposing (Msg(..), showBoard)
 import Array exposing (initialize)
+import Game exposing (Game, new, takeTurn)
 
 main = 
   Html.beginnerProgram { model = model, update = update, view = view }
 
 -- MODEL
 
-type alias Model = Board
+type alias Model = Game
  
 model : Model
 model = 
-  Board.new 9
+  Game.new (Board.new 9)
 
 -- UPDATE
+
 
 update : Msg -> Model -> Model
 update msg model = 
   case msg of 
-    Mark -> 
-      Board.mark 4 X model
+    Mark position -> 
+      takeTurn position model
 
 -- VIEW
 
@@ -32,6 +34,6 @@ view : Model -> Html Msg
 view model = 
   div [] [
     h1 [] [ text "Tic Tac Toe" ],
-    showBoard model
+    showBoard model.board
   ]
 

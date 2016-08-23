@@ -4,6 +4,18 @@ body {
 
 #tictactoe {
     width: 800px;
-    margin: 0 auto;;
-    text-align: center;
+    margin: 0 auto;
+}
+
+table {
+    margin: 0 auto;
+}
+
+button {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: lightgray;
+  font-size: 2em;
 }

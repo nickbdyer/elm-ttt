@@ -1,12 +1,13 @@
 module Tests exposing (..)
 
 import Test exposing (..)
+import Expect
+
+
 import BoardTest
+import TicTacToeTest
 import GameTest
 import UITest
-import Expect
-import String
-
 
 all : Test
 all =
@@ -14,4 +15,5 @@ all =
         [ BoardTest.all
         , UITest.all
         , GameTest.all
+        , TicTacToeTest.all
         ]
