@@ -1,27 +1,26 @@
-module Lines exposing (..)
+module Lines exposing (getRows, getColumns, getDiagonals)
 
 import Array exposing (..)
 import List exposing (reverse)
 
-import Board exposing (Board, Mark(..))
 
-
-getRows : Board -> Array (Array (Maybe Mark))
+getRows : Array (Maybe a) -> Array (Array (Maybe a))
 getRows board =
   getSlicePoints board
     |> map (\tuple -> slice (fst tuple) (snd tuple) board)
 
 
-getColumns : Board -> Array (Array (Maybe Mark))
+getColumns : Array (Maybe a) -> Array (Array (Maybe a))
 getColumns board = 
   let 
       rows = getRows board
-      width = getWidth board
+      width = length rows
       iter = initialize width identity
   in
       map (\columnNumber -> (makeColumn columnNumber rows)) iter
 
-getDiagonals : Board -> Array (Array (Maybe Mark))
+
+getDiagonals : Array (Maybe a) -> Array (Array (Maybe a))
 getDiagonals board =
   let 
       rows = getRows board
@@ -34,7 +33,7 @@ getDiagonals board =
         |> push rightDiagonal
 
 
-getDiagonal : Array (Array (Maybe Mark)) -> Array (Maybe Mark)
+getDiagonal : Array (Array (Maybe a)) -> Array (Maybe a)
 getDiagonal rows =
   let
       width = length rows
@@ -43,45 +42,33 @@ getDiagonal rows =
   in
       List.map2 (\row index -> get index row) rowsAsList iter 
         |> fromList
-        |> map (\elem -> 
-          case elem of
-            Just (Just a) -> Just a
-            Just (Nothing) -> Nothing
-            Nothing -> Nothing) 
+        |> flatMap
 
 
-
-makeColumn : Int -> Array (Array (Maybe Mark)) -> Array (Maybe Mark)
+makeColumn : Int -> Array (Array (Maybe a)) -> Array (Maybe a)
 makeColumn columnNum rows =
-  flatMap (\row -> get columnNum row) rows
-
-
-flatMap : (a -> Maybe (Maybe Mark)) -> Array a -> Array (Maybe Mark)
-flatMap function array =
-  let
-    row = map function array
+  let 
+    row = map (\row -> get columnNum row) rows
   in
-    map (\cell ->
-      case cell of
-        Just (Just a) -> Just a
-        Just (Nothing) -> Nothing
-        Nothing -> Nothing) row
+    flatMap row
 
 
-getSlicePoints : Board -> Array (Int, Int)
+flatMap : Array (Maybe (Maybe a)) -> Array (Maybe a)
+flatMap array =
+  array
+    |> map (\cell ->
+        case cell of
+          Just (Just a) -> Just a
+          Just (Nothing) -> Nothing
+          Nothing -> Nothing) 
+
+
+getSlicePoints : Array (Maybe a) -> Array (Int, Int)
 getSlicePoints board =
   let 
-      width = getWidth board
+      width = round (sqrt (toFloat (length board)))
       iter = initialize width (\n -> width*n)
   in
       map (\num -> (num, (num + width))) iter
 
-
-getWidth : Board -> Int
-getWidth board = 
-  round (sqrt (toFloat (length board)))
-
-
-
-  
 

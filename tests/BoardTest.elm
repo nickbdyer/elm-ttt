@@ -32,15 +32,15 @@ all =
             \() ->
               Expect.true "Expected board to be full" (full createFullBoard)
 
-        --, test "A board knows if X is the winner" <|
-            --\() ->
-              --winner createXWinningBoard
-                --|> Expect.equal (Just X)
+        , test "A board knows if X is the winner" <|
+            \() ->
+              winner createXWinningBoard
+                |> Expect.equal (Just X)
 
-        --, test "A board knows if O is the winner" <|
-            --\() ->
-              --winner createOWinningBoard
-                --|> Expect.equal (Just O)
+        , test "A board knows if O is the winner" <|
+            \() ->
+              winner createOWinningBoard
+                |> Expect.equal (Just O)
         ]
 
 createFullBoard : Board

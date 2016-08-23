@@ -1,6 +1,8 @@
 module Board exposing (..)
 
-import Array exposing (Array, length, repeat, set, get, toList, map)
+import Array exposing (..)
+
+import Lines exposing (getRows, getColumns, getDiagonals)
 
 type Mark = X | O
 
@@ -37,21 +39,29 @@ isMarkedCell mark =
     Nothing -> False
 
 
---winner : Board -> Maybe Mark
---winner board =
-  --let
-      --combos = getCombosList board
-      --linesWithWinners = map winnerOnLine combos
-  --in 
-      --Maybe.oneOf linesWithWinners
+winner : Board -> Maybe Mark
+winner board =
+  let
+      combos = getCombosList board
+      linesWithWinners = map winnerOnLine combos
+  in 
+      Maybe.oneOf (toList linesWithWinners)
 
 
---getCombosList : Array (Maybe Mark) -> Array (Array (Maybe Mark))
---getCombosList board =
-  --let 
-      --rows = getRows board
-      --columns = getColumns board
-      --diagonals = getDiagonals board
-  --in
-      --rows :: columns :: diagonals
+getCombosList : Array (Maybe Mark) -> Array (Array (Maybe Mark))
+getCombosList board =
+  let 
+      rows = getRows board
+      columns = getColumns board
+      diagonals = getDiagonals board
+  in
+      append rows columns
+       |> append diagonals
 
+
+winnerOnLine : Array (Maybe Mark) -> Maybe Mark
+winnerOnLine line =
+  case (toList line) of
+    [Just X, Just X, Just X] -> Just X
+    [Just O, Just O, Just O] -> Just O
+    _ -> Nothing
