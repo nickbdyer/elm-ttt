@@ -1,4 +1,4 @@
-module UI exposing (Msg(..), showBoard, sliceInRows, getWidth)
+module UI exposing (Msg(..), showBoard, sliceInRows, getWidth, showReset)
 
 import Html exposing (Html, div, text, button, table, tr, td)
 import Html.App as Html
@@ -11,6 +11,10 @@ import Array exposing (..)
 type Msg = Mark Int | Reset
 type alias Row = List (Int, Maybe Mark)
 
+
+showReset : Html Msg
+showReset =
+  button [onClick Reset] [ text "Reset" ]
 
 showBoard : Board -> Html Msg
 showBoard board =
