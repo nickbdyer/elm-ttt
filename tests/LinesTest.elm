@@ -6,7 +6,7 @@ import Expect
 import Lines exposing (..)
 import Board exposing (Board, Mark(..), new)
 import Array exposing (repeat, fromList)
-import BoardTest exposing (createFullBoard)
+import TestHelpers exposing (createFullBoard)
 
 
 all : Test
@@ -16,8 +16,8 @@ all =
             \() ->
               createFullBoard
                 |> getRows
-                |> Expect.equal (fromList [ fromList [Just X, Just O, Just O] 
-                                          , fromList [Just O, Just X, Just X]
+                |> Expect.equal (fromList [ fromList [Just X, Just X, Just O] 
+                                          , fromList [Just O, Just O, Just X]
                                           , fromList [Just X, Just O, Just X] ])
 
         , test "A board can be split into columns" <|
@@ -25,14 +25,14 @@ all =
               createFullBoard
                 |> getColumns
                 |> Expect.equal (fromList [ fromList [Just X, Just O, Just X] 
-                                          , fromList [Just O, Just X, Just O]
+                                          , fromList [Just X, Just O, Just O]
                                           , fromList [Just O, Just X, Just X] ])
 
         , test "A board can be split into diagonals" <|
             \() ->
               createFullBoard
                 |> getDiagonals
-                |> Expect.equal (fromList [ fromList [Just X, Just X, Just X] 
-                                          , fromList [Just O, Just X, Just X] ])
+                |> Expect.equal (fromList [ fromList [Just X, Just O, Just X] 
+                                          , fromList [Just O, Just O, Just X] ])
         ]
 

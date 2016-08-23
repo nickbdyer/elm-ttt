@@ -5,6 +5,8 @@ import Expect
 
 import Board exposing (Mark(..), new)
 import Game exposing (..)
+import TestHelpers exposing (createFullBoard, createXWinningBoard, createOWinningBoard)
+
 
 all : Test
 all =
@@ -35,6 +37,12 @@ all =
               (Game.new (Board.new 9))
                 |> retrieveState
                 |> Expect.equal InPlay
+
+        , test "Game knows when the game is a draw" <|
+            \() ->
+              (Game.new (createFullBoard))
+                |> retrieveState
+                |> Expect.equal Draw
         ]
 
 
