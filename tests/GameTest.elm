@@ -29,6 +29,12 @@ all =
                 |> takeTurn 5
                 |> .currentPlayer
                 |> Expect.equal X
+
+        , test "Game knows when the game is inplay" <|
+            \() ->
+              (Game.new (Board.new 9))
+                |> retrieveState
+                |> Expect.equal InPlay
         ]
 
 

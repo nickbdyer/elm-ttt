@@ -1,8 +1,10 @@
-module Game exposing (Game, new, takeTurn)
+module Game exposing (Game, GameState(..), new, takeTurn, retrieveState)
 
-import Board exposing (Board, Mark(..), mark)
+import Board exposing (Board, Mark(..), mark, full, winner)
 
 type alias Game = {board : Board, currentPlayer : Mark}
+
+type GameState = Winner Mark | Draw | InPlay
 
 new : Board -> Game
 new board = 
@@ -20,3 +22,15 @@ opponent mark =
   case mark of
     X -> O
     O -> X
+
+
+retrieveState : Game -> GameState
+retrieveState game =
+  let
+    situation = (winner game.board, full game.board)
+  in
+    case situation of
+      (Just symbol, _) -> Winner symbol
+      (Nothing, True) -> Draw
+      (Nothing, False) -> InPlay
+
