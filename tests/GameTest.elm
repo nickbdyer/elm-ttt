@@ -43,6 +43,18 @@ all =
               (Game.new (createFullBoard))
                 |> retrieveState
                 |> Expect.equal Draw
+
+        , test "Game knows when the game has X winner" <|
+            \() ->
+              (Game.new (createXWinningBoard))
+                |> retrieveState
+                |> Expect.equal (Winner X)
+
+        , test "Game knows when the game has O winner" <|
+            \() ->
+              (Game.new (createOWinningBoard))
+                |> retrieveState
+                |> Expect.equal (Winner O)
         ]
 
 
