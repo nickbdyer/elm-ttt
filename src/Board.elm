@@ -43,6 +43,7 @@ winner : Board -> Maybe Mark
 winner board =
   let
       combos = getCombosList board
+
       linesWithWinners = map winnerOnLine combos
   in 
       Maybe.oneOf (toList linesWithWinners)

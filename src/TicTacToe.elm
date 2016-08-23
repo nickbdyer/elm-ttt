@@ -26,6 +26,9 @@ update msg model =
   case msg of 
     Mark position -> 
       takeTurn position model
+    Reset -> 
+      Game.new (Board.new 9)
+      
 
 -- VIEW
 

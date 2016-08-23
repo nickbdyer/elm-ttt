@@ -35,6 +35,14 @@ all =
                   |> get 5
                   |> Expect.equal (Just (Just X))
 
+         , test "When a cell is clicked, a move is played" <|
+            \() ->
+              let 
+                game = (Game.new (Board.new 9))
+              in
+                update (Mark 5) game
+                  |> update Reset 
+                  |> Expect.equal game
 
         ]
 

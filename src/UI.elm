@@ -8,7 +8,7 @@ import Html.Attributes exposing (value)
 import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
 
-type Msg = Mark Int
+type Msg = Mark Int | Reset
 type alias Row = List (Int, Maybe Mark)
 
 
