@@ -1,6 +1,7 @@
 module Lines exposing (..)
 
-import Array exposing (Array, slice, length, map, initialize, get)
+import Array exposing (..)
+import List exposing (reverse)
 
 import Board exposing (Board, Mark(..))
 
@@ -20,6 +21,35 @@ getColumns board =
   in
       map (\columnNumber -> (makeColumn columnNumber rows)) iter
 
+getDiagonals : Board -> Array (Array (Maybe Mark))
+getDiagonals board =
+  let 
+      rows = getRows board
+      reverseRows = map (\row -> fromList (reverse (toList row))) rows
+      leftDiagonal = getDiagonal rows
+      rightDiagonal = getDiagonal reverseRows
+  in
+      empty
+        |> push leftDiagonal
+        |> push rightDiagonal
+
+
+getDiagonal : Array (Array (Maybe Mark)) -> Array (Maybe Mark)
+getDiagonal rows =
+  let
+      width = length rows
+      iter = toList (initialize width identity)
+      rowsAsList = toList rows
+  in
+      List.map2 (\row index -> get index row) rowsAsList iter 
+        |> fromList
+        |> map (\elem -> 
+          case elem of
+            Just (Just a) -> Just a
+            Just (Nothing) -> Nothing
+            Nothing -> Nothing) 
+
+
 
 makeColumn : Int -> Array (Array (Maybe Mark)) -> Array (Maybe Mark)
 makeColumn columnNum rows =
@@ -36,9 +66,6 @@ flatMap function array =
         Just (Just a) -> Just a
         Just (Nothing) -> Nothing
         Nothing -> Nothing) row
-
-
-
 
 
 getSlicePoints : Board -> Array (Int, Int)

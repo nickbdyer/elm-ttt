@@ -27,5 +27,12 @@ all =
                 |> Expect.equal (fromList [ fromList [Just X, Just O, Just X] 
                                           , fromList [Just O, Just X, Just O]
                                           , fromList [Just O, Just X, Just X] ])
+
+        , test "A board can be split into diagonals" <|
+            \() ->
+              createFullBoard
+                |> getDiagonals
+                |> Expect.equal (fromList [ fromList [Just X, Just X, Just X] 
+                                          , fromList [Just O, Just X, Just X] ])
         ]
 
