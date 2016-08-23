@@ -22,7 +22,7 @@ $ elm-package install
 
 ### Run
 
-See it online [here](https://www.nickbdyer.uk/elm-ttt)
+See it online [here](http://www.nickbdyer.uk/elm-ttt)
 
 ```
 $ elm-make src/TicTacToe.elm --output elm.js
