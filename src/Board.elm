@@ -1,6 +1,6 @@
 module Board exposing (..)
 
-import Array exposing (Array, length, repeat, set, get)
+import Array exposing (Array, length, repeat, set, get, toList)
 
 type Mark = X | O
 
@@ -23,3 +23,15 @@ mark position symbol board =
 toArray : Board -> Array (Maybe Mark)
 toArray board = 
   board
+
+
+full : Board -> Bool
+full board = 
+  List.all isMarkedCell (toList board)
+
+
+isMarkedCell : Maybe Mark -> Bool
+isMarkedCell mark =
+  case mark of
+    Just _ -> True
+    Nothing -> False
