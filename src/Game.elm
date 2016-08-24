@@ -13,7 +13,7 @@ new board =
 
 takeTurn : Int -> Game -> Game
 takeTurn position game = 
-  {game | board = mark position (currentPlayer game) game.board,
+  {game | board = mark position (currentPlayer game) (board game),
           currentPlayer = opponent (currentPlayer game) }
 
 
@@ -27,7 +27,7 @@ opponent mark =
 retrieveState : Game -> GameState
 retrieveState game =
   let
-    situation = (winner game.board, full game.board)
+    situation = (winner (board game), full (board game))
   in
     case situation of
       (Just symbol, _) -> Winner symbol
@@ -38,3 +38,8 @@ retrieveState game =
 currentPlayer : Game -> Mark
 currentPlayer game =
   game.currentPlayer
+  
+  
+board : Game -> Board
+board game =
+  game.board

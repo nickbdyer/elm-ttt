@@ -19,7 +19,7 @@ all =
                 game = (Game.new (Board.new 9))
               in
                 update (Mark 5) game
-                  |> .board
+                  |> board
                   |> get 5
                   |> Expect.equal (Just (Just X))
 
@@ -31,7 +31,7 @@ all =
                 game
                   |> update (Mark 5)
                   |> update (Mark 5)
-                  |> .board
+                  |> board
                   |> get 5
                   |> Expect.equal (Just (Just X))
 

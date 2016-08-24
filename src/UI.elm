@@ -7,7 +7,7 @@ import Html.Attributes exposing (value)
 
 import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
-import Game exposing (Game, GameState(..), retrieveState)
+import Game exposing (Game, GameState(..), retrieveState, board)
 
 type Msg = Mark Int | Reset
 type alias Row = List (Int, Maybe Mark)
@@ -31,7 +31,7 @@ showReset =
 
 showBoard : Game -> Html Msg
 showBoard game =
-  table [] (showRows game.board (retrieveState game))
+  table [] (showRows (board game) (retrieveState game))
 
 
 showRows : Array (Maybe Mark) -> GameState -> List (Html Msg)
