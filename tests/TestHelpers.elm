@@ -2,8 +2,8 @@ module TestHelpers exposing (..)
 
 import Board exposing (..)
 
-createFullBoard : Board
-createFullBoard =
+createDrawBoard : Board
+createDrawBoard =
   Board.new 9
     |> Board.mark 0 X 
     |> Board.mark 1 X 

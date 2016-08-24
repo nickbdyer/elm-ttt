@@ -5,7 +5,7 @@ import Expect
 
 import Game exposing (..)
 import Board exposing (Mark(..), new)
-import TestHelpers exposing (createFullBoard, createXWinningBoard, createOWinningBoard)
+import TestHelpers exposing (createDrawBoard, createXWinningBoard, createOWinningBoard)
 
 
 all : Test
@@ -17,7 +17,7 @@ all =
                 |> currentPlayer
                 |> Expect.equal X
 
-        , test "After processing a turn, the currentPlayer is O" <|
+        , test "After processing one turn, the currentPlayer is O" <|
             \() ->
               (Game.new (Board.new 9))
                 |> takeTurn 4
@@ -40,7 +40,7 @@ all =
 
         , test "Game knows when the game is a draw" <|
             \() ->
-              (Game.new (createFullBoard))
+              (Game.new (createDrawBoard))
                 |> retrieveState
                 |> Expect.equal Draw
 

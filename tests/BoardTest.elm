@@ -6,7 +6,7 @@ import Expect
 import Array exposing (length, repeat, get)
 
 import Board exposing (..)
-import TestHelpers exposing (createFullBoard, createXWinningBoard, createOWinningBoard)
+import TestHelpers exposing (createDrawBoard, createXWinningBoard, createOWinningBoard)
 
 all : Test
 all =
@@ -31,7 +31,7 @@ all =
 
         , test "A board knows if it is full" <|
             \() ->
-              Expect.true "Expected board to be full" (full createFullBoard)
+              Expect.true "Expected board to be full" (full createDrawBoard)
 
         , test "A board knows if X is the winner" <|
             \() ->
