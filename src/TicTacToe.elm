@@ -5,21 +5,20 @@ import Html.App as Html
 import Board exposing (Board, Mark(..), new)
 import UI exposing (Msg(..), showBoard, showReset, showGameState)
 import Array exposing (initialize)
-import Game exposing (Game, new, takeTurn)
+import Game exposing (Game, takeTurn)
 
 main = 
-  Html.beginnerProgram { model = model, update = update, view = view }
+  Html.beginnerProgram { model = initialModel, update = update, view = view }
 
 -- MODEL
 
 type alias Model = Game
  
-model : Model
-model = 
+initialModel : Model
+initialModel = 
   Game.new (Board.new 9)
 
 -- UPDATE
-
 
 update : Msg -> Model -> Model
 update msg model = 
@@ -27,7 +26,7 @@ update msg model =
     Mark position -> 
       takeTurn position model
     Reset -> 
-      Game.new (Board.new 9)
+      initialModel
       
 
 -- VIEW
