@@ -1,4 +1,4 @@
-module Board exposing (..)
+module Board exposing (Board, Mark(..), new, mark, toArray, full, winner)
 
 import Array exposing (..)
 
@@ -18,8 +18,7 @@ mark : Int -> Mark -> Board -> Board
 mark position symbol board =
   case (get position board) of
     Just (Just x) -> board
-    Just (Nothing) -> set position (Just symbol) board
-    Nothing -> set position (Just symbol) board
+    _ -> set position (Just symbol) board
 
 
 toArray : Board -> Array (Maybe Mark)

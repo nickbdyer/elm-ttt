@@ -11,16 +11,16 @@ import TestHelpers exposing (createFullBoard, createXWinningBoard, createOWinnin
 all : Test
 all =
     describe "Board Test"
-        [ test "A new board is empty" <|
-            \() ->
-              Board.new 9
-                |> Expect.equal (repeat 9 Nothing)
-
-        , test "A board can be given a size" <|
+        [ test "A board can be created with a size" <|
             \() ->
               Board.new 9
                 |> length
                 |> Expect.equal 9 
+
+        , test "A new board has no marks inside" <|
+            \() ->
+              Board.new 9
+                |> Expect.equal (repeat 9 Nothing)
 
         , test "A board can be marked" <|
             \() ->
