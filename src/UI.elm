@@ -1,20 +1,33 @@
-module UI exposing (Msg(..), showBoard, sliceInRows, getWidth, showReset)
+module UI exposing (Msg(..), showBoard, sliceInRows, getWidth, showReset, showGameState)
 
-import Html exposing (Html, div, text, button, table, tr, td)
+import Html exposing (Html, h3, div, text, button, table, tr, td)
 import Html.App as Html
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (value)
 
 import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
+import Game exposing (Game, GameState(..), retrieveState)
 
 type Msg = Mark Int | Reset
 type alias Row = List (Int, Maybe Mark)
 
 
+showGameState : Game -> Html a
+showGameState game =
+  let 
+      state = retrieveState game
+  in
+    case state of
+      Winner mark -> h3 [] [text ("The winner is " ++ (toString mark))]
+      Draw -> h3 [] [text "It's a draw" ]
+      InPlay -> h3 [] [text ((toString game.currentPlayer) ++ " it is your turn")]
+
+
 showReset : Html Msg
 showReset =
   button [onClick Reset] [ text "Reset" ]
+
 
 showBoard : Board -> Html Msg
 showBoard board =
