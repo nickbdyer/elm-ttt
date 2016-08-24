@@ -7894,22 +7894,137 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _nickbdyer$elm_ttt$Lines$getSlicePoints = function (board) {
+	var width = _elm_lang$core$Basics$round(
+		_elm_lang$core$Basics$sqrt(
+			_elm_lang$core$Basics$toFloat(
+				_elm_lang$core$Array$length(board))));
+	var iter = A2(
+		_elm_lang$core$Array$initialize,
+		width,
+		function (n) {
+			return width * n;
+		});
+	return A2(
+		_elm_lang$core$Array$map,
+		function (num) {
+			return {ctor: '_Tuple2', _0: num, _1: num + width};
+		},
+		iter);
+};
+var _nickbdyer$elm_ttt$Lines$flatMap = function (array) {
+	return A2(
+		_elm_lang$core$Array$map,
+		function (cell) {
+			var _p0 = cell;
+			if ((_p0.ctor === 'Just') && (_p0._0.ctor === 'Just')) {
+				return _elm_lang$core$Maybe$Just(_p0._0._0);
+			} else {
+				return _elm_lang$core$Maybe$Nothing;
+			}
+		},
+		array);
+};
+var _nickbdyer$elm_ttt$Lines$makeColumn = F2(
+	function (columnNum, rows) {
+		var row = A2(
+			_elm_lang$core$Array$map,
+			function (row) {
+				return A2(_elm_lang$core$Array$get, columnNum, row);
+			},
+			rows);
+		return _nickbdyer$elm_ttt$Lines$flatMap(row);
+	});
+var _nickbdyer$elm_ttt$Lines$getDiagonal = function (rows) {
+	var rowsAsList = _elm_lang$core$Array$toList(rows);
+	var width = _elm_lang$core$Array$length(rows);
+	var iter = _elm_lang$core$Array$toList(
+		A2(_elm_lang$core$Array$initialize, width, _elm_lang$core$Basics$identity));
+	return _nickbdyer$elm_ttt$Lines$flatMap(
+		_elm_lang$core$Array$fromList(
+			A3(
+				_elm_lang$core$List$map2,
+				F2(
+					function (row, index) {
+						return A2(_elm_lang$core$Array$get, index, row);
+					}),
+				rowsAsList,
+				iter)));
+};
+var _nickbdyer$elm_ttt$Lines$getRows = function (board) {
+	return A2(
+		_elm_lang$core$Array$map,
+		function (tuple) {
+			return A3(
+				_elm_lang$core$Array$slice,
+				_elm_lang$core$Basics$fst(tuple),
+				_elm_lang$core$Basics$snd(tuple),
+				board);
+		},
+		_nickbdyer$elm_ttt$Lines$getSlicePoints(board));
+};
+var _nickbdyer$elm_ttt$Lines$getColumns = function (board) {
+	var rows = _nickbdyer$elm_ttt$Lines$getRows(board);
+	var iter = A2(
+		_elm_lang$core$Array$initialize,
+		_elm_lang$core$Array$length(rows),
+		_elm_lang$core$Basics$identity);
+	return A2(
+		_elm_lang$core$Array$map,
+		function (columnNumber) {
+			return A2(_nickbdyer$elm_ttt$Lines$makeColumn, columnNumber, rows);
+		},
+		iter);
+};
+var _nickbdyer$elm_ttt$Lines$getDiagonals = function (board) {
+	var rows = _nickbdyer$elm_ttt$Lines$getRows(board);
+	var reversedRows = A2(
+		_elm_lang$core$Array$map,
+		function (row) {
+			return _elm_lang$core$Array$fromList(
+				_elm_lang$core$List$reverse(
+					_elm_lang$core$Array$toList(row)));
+		},
+		rows);
+	var rightDiagonal = _nickbdyer$elm_ttt$Lines$getDiagonal(reversedRows);
+	var leftDiagonal = _nickbdyer$elm_ttt$Lines$getDiagonal(rows);
+	return A2(
+		_elm_lang$core$Array$push,
+		rightDiagonal,
+		A2(_elm_lang$core$Array$push, leftDiagonal, _elm_lang$core$Array$empty));
+};
+
+var _nickbdyer$elm_ttt$Board$getCombosList = function (board) {
+	var diagonals = _nickbdyer$elm_ttt$Lines$getDiagonals(board);
+	var columns = _nickbdyer$elm_ttt$Lines$getColumns(board);
+	var rows = _nickbdyer$elm_ttt$Lines$getRows(board);
+	return A2(
+		_elm_lang$core$Array$append,
+		diagonals,
+		A2(_elm_lang$core$Array$append, rows, columns));
+};
+var _nickbdyer$elm_ttt$Board$isMarkedCell = function (mark) {
+	var _p0 = mark;
+	if (_p0.ctor === 'Just') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _nickbdyer$elm_ttt$Board$full = function (board) {
+	return A2(
+		_elm_lang$core$List$all,
+		_nickbdyer$elm_ttt$Board$isMarkedCell,
+		_elm_lang$core$Array$toList(board));
+};
 var _nickbdyer$elm_ttt$Board$toArray = function (board) {
 	return board;
 };
 var _nickbdyer$elm_ttt$Board$mark = F3(
 	function (position, symbol, board) {
-		var _p0 = A2(_elm_lang$core$Array$get, position, board);
-		if (_p0.ctor === 'Just') {
-			if (_p0._0.ctor === 'Just') {
-				return board;
-			} else {
-				return A3(
-					_elm_lang$core$Array$set,
-					position,
-					_elm_lang$core$Maybe$Just(symbol),
-					board);
-			}
+		var _p1 = A2(_elm_lang$core$Array$get, position, board);
+		if ((_p1.ctor === 'Just') && (_p1._0.ctor === 'Just')) {
+			return board;
 		} else {
 			return A3(
 				_elm_lang$core$Array$set,
@@ -7923,7 +8038,43 @@ var _nickbdyer$elm_ttt$Board$new = function (size) {
 };
 var _nickbdyer$elm_ttt$Board$O = {ctor: 'O'};
 var _nickbdyer$elm_ttt$Board$X = {ctor: 'X'};
+var _nickbdyer$elm_ttt$Board$winnerOnLine = function (line) {
+	var _p2 = _elm_lang$core$Array$toList(line);
+	_v2_2:
+	do {
+		if ((_p2.ctor === '::') && (_p2._0.ctor === 'Just')) {
+			if (_p2._0._0.ctor === 'X') {
+				if (((((((_p2._1.ctor === '::') && (_p2._1._0.ctor === 'Just')) && (_p2._1._0._0.ctor === 'X')) && (_p2._1._1.ctor === '::')) && (_p2._1._1._0.ctor === 'Just')) && (_p2._1._1._0._0.ctor === 'X')) && (_p2._1._1._1.ctor === '[]')) {
+					return _elm_lang$core$Maybe$Just(_nickbdyer$elm_ttt$Board$X);
+				} else {
+					break _v2_2;
+				}
+			} else {
+				if (((((((_p2._1.ctor === '::') && (_p2._1._0.ctor === 'Just')) && (_p2._1._0._0.ctor === 'O')) && (_p2._1._1.ctor === '::')) && (_p2._1._1._0.ctor === 'Just')) && (_p2._1._1._0._0.ctor === 'O')) && (_p2._1._1._1.ctor === '[]')) {
+					return _elm_lang$core$Maybe$Just(_nickbdyer$elm_ttt$Board$O);
+				} else {
+					break _v2_2;
+				}
+			}
+		} else {
+			break _v2_2;
+		}
+	} while(false);
+	return _elm_lang$core$Maybe$Nothing;
+};
+var _nickbdyer$elm_ttt$Board$winner = function (board) {
+	var combos = _nickbdyer$elm_ttt$Board$getCombosList(board);
+	var linesWithWinners = A2(_elm_lang$core$Array$map, _nickbdyer$elm_ttt$Board$winnerOnLine, combos);
+	return _elm_lang$core$Maybe$oneOf(
+		_elm_lang$core$Array$toList(linesWithWinners));
+};
 
+var _nickbdyer$elm_ttt$Game$board = function (game) {
+	return game.board;
+};
+var _nickbdyer$elm_ttt$Game$currentPlayer = function (game) {
+	return game.currentPlayer;
+};
 var _nickbdyer$elm_ttt$Game$opponent = function (mark) {
 	var _p0 = mark;
 	if (_p0.ctor === 'X') {
@@ -7937,8 +8088,13 @@ var _nickbdyer$elm_ttt$Game$takeTurn = F2(
 		return _elm_lang$core$Native_Utils.update(
 			game,
 			{
-				board: A3(_nickbdyer$elm_ttt$Board$mark, position, game.currentPlayer, game.board),
-				currentPlayer: _nickbdyer$elm_ttt$Game$opponent(game.currentPlayer)
+				board: A3(
+					_nickbdyer$elm_ttt$Board$mark,
+					position,
+					_nickbdyer$elm_ttt$Game$currentPlayer(game),
+					_nickbdyer$elm_ttt$Game$board(game)),
+				currentPlayer: _nickbdyer$elm_ttt$Game$opponent(
+					_nickbdyer$elm_ttt$Game$currentPlayer(game))
 			});
 	});
 var _nickbdyer$elm_ttt$Game$new = function (board) {
@@ -7948,21 +8104,36 @@ var _nickbdyer$elm_ttt$Game$Game = F2(
 	function (a, b) {
 		return {board: a, currentPlayer: b};
 	});
+var _nickbdyer$elm_ttt$Game$InPlay = {ctor: 'InPlay'};
+var _nickbdyer$elm_ttt$Game$Draw = {ctor: 'Draw'};
+var _nickbdyer$elm_ttt$Game$Winner = function (a) {
+	return {ctor: 'Winner', _0: a};
+};
+var _nickbdyer$elm_ttt$Game$retrieveState = function (game) {
+	var situation = {
+		ctor: '_Tuple2',
+		_0: _nickbdyer$elm_ttt$Board$winner(
+			_nickbdyer$elm_ttt$Game$board(game)),
+		_1: _nickbdyer$elm_ttt$Board$full(
+			_nickbdyer$elm_ttt$Game$board(game))
+	};
+	var _p1 = situation;
+	if (_p1._0.ctor === 'Just') {
+		return _nickbdyer$elm_ttt$Game$Winner(_p1._0._0);
+	} else {
+		if (_p1._1 === true) {
+			return _nickbdyer$elm_ttt$Game$Draw;
+		} else {
+			return _nickbdyer$elm_ttt$Game$InPlay;
+		}
+	}
+};
 
 var _nickbdyer$elm_ttt$UI$getWidth = function (board) {
 	return _elm_lang$core$Basics$round(
 		_elm_lang$core$Basics$sqrt(
 			_elm_lang$core$Basics$toFloat(
 				_elm_lang$core$Array$length(board))));
-};
-var _nickbdyer$elm_ttt$UI$embedIndexes = function (board) {
-	return A2(
-		_elm_lang$core$Array$indexedMap,
-		F2(
-			function (v0, v1) {
-				return {ctor: '_Tuple2', _0: v0, _1: v1};
-			}),
-		board);
 };
 var _nickbdyer$elm_ttt$UI$getSlicePoints = function (board) {
 	var width = _nickbdyer$elm_ttt$UI$getWidth(board);
@@ -7981,7 +8152,13 @@ var _nickbdyer$elm_ttt$UI$getSlicePoints = function (board) {
 };
 var _nickbdyer$elm_ttt$UI$sliceInRows = function (board) {
 	var board = _nickbdyer$elm_ttt$Board$toArray(board);
-	var indexedBoard = _nickbdyer$elm_ttt$UI$embedIndexes(board);
+	var indexedBoard = A2(
+		_elm_lang$core$Array$indexedMap,
+		F2(
+			function (v0, v1) {
+				return {ctor: '_Tuple2', _0: v0, _1: v1};
+			}),
+		board);
 	var slicePoints = _nickbdyer$elm_ttt$UI$getSlicePoints(indexedBoard);
 	return _elm_lang$core$Array$toList(
 		A2(
@@ -7996,84 +8173,162 @@ var _nickbdyer$elm_ttt$UI$sliceInRows = function (board) {
 			},
 			slicePoints));
 };
+var _nickbdyer$elm_ttt$UI$showGameState = function (game) {
+	var _p0 = _nickbdyer$elm_ttt$Game$retrieveState(game);
+	switch (_p0.ctor) {
+		case 'Winner':
+			return A2(
+				_elm_lang$html$Html$h3,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'The winner is ',
+							_elm_lang$core$Basics$toString(_p0._0)))
+					]));
+		case 'Draw':
+			return A2(
+				_elm_lang$html$Html$h3,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('It\'s a draw')
+					]));
+		default:
+			return A2(
+				_elm_lang$html$Html$h3,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$Basics$toString(game.currentPlayer),
+							' it is your turn'))
+					]));
+	}
+};
+var _nickbdyer$elm_ttt$UI$Reset = {ctor: 'Reset'};
+var _nickbdyer$elm_ttt$UI$showReset = A2(
+	_elm_lang$html$Html$button,
+	_elm_lang$core$Native_List.fromArray(
+		[
+			_elm_lang$html$Html_Events$onClick(_nickbdyer$elm_ttt$UI$Reset)
+		]),
+	_elm_lang$core$Native_List.fromArray(
+		[
+			_elm_lang$html$Html$text('Reset')
+		]));
 var _nickbdyer$elm_ttt$UI$Mark = function (a) {
 	return {ctor: 'Mark', _0: a};
 };
-var _nickbdyer$elm_ttt$UI$showCells = function (line) {
-	return A2(
-		_elm_lang$core$List$map,
-		function (cell) {
-			var _p0 = _elm_lang$core$Basics$snd(cell);
-			if (_p0.ctor === 'Just') {
-				return A2(
-					_elm_lang$html$Html$td,
-					_elm_lang$core$Native_List.fromArray(
-						[]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							A2(
-							_elm_lang$html$Html$button,
+var _nickbdyer$elm_ttt$UI$showCells = F2(
+	function (line, state) {
+		return A2(
+			_elm_lang$core$List$map,
+			function (cell) {
+				var _p1 = {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Basics$snd(cell),
+					_1: state
+				};
+				if (_p1._0.ctor === 'Just') {
+					return A2(
+						_elm_lang$html$Html$td,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_elm_lang$html$Html$button,
+								_elm_lang$core$Native_List.fromArray(
+									[]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html$text(_p1._0._0)
+									]))
+							]));
+				} else {
+					if (_p1._1.ctor === 'InPlay') {
+						return A2(
+							_elm_lang$html$Html$td,
 							_elm_lang$core$Native_List.fromArray(
 								[]),
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html$text(_p0._0)
-								]))
-						]));
-			} else {
+									A2(
+									_elm_lang$html$Html$button,
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$html$Html_Events$onClick(
+											_nickbdyer$elm_ttt$UI$Mark(
+												_elm_lang$core$Basics$fst(cell)))
+										]),
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$html$Html$text('')
+										]))
+								]));
+					} else {
+						return A2(
+							_elm_lang$html$Html$td,
+							_elm_lang$core$Native_List.fromArray(
+								[]),
+							_elm_lang$core$Native_List.fromArray(
+								[
+									A2(
+									_elm_lang$html$Html$button,
+									_elm_lang$core$Native_List.fromArray(
+										[]),
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$html$Html$text('')
+										]))
+								]));
+					}
+				}
+			},
+			A2(
+				_elm_lang$core$List$map,
+				function (mark) {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Basics$fst(mark),
+						_1: A2(
+							_elm_lang$core$Maybe$map,
+							_elm_lang$core$Basics$toString,
+							_elm_lang$core$Basics$snd(mark))
+					};
+				},
+				line));
+	});
+var _nickbdyer$elm_ttt$UI$showRows = F2(
+	function (board, state) {
+		return A2(
+			_elm_lang$core$List$map,
+			function (line) {
 				return A2(
-					_elm_lang$html$Html$td,
+					_elm_lang$html$Html$tr,
 					_elm_lang$core$Native_List.fromArray(
 						[]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							A2(
-							_elm_lang$html$Html$button,
-							_elm_lang$core$Native_List.fromArray(
-								[
-									_elm_lang$html$Html_Events$onClick(
-									_nickbdyer$elm_ttt$UI$Mark(
-										_elm_lang$core$Basics$fst(cell)))
-								]),
-							_elm_lang$core$Native_List.fromArray(
-								[
-									_elm_lang$html$Html$text('')
-								]))
-						]));
-			}
-		},
-		A2(
-			_elm_lang$core$List$map,
-			function (mark) {
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Basics$fst(mark),
-					_1: A2(
-						_elm_lang$core$Maybe$map,
-						_elm_lang$core$Basics$toString,
-						_elm_lang$core$Basics$snd(mark))
-				};
+					A2(_nickbdyer$elm_ttt$UI$showCells, line, state));
 			},
-			line));
-};
-var _nickbdyer$elm_ttt$UI$showRows = function (board) {
-	return A2(
-		_elm_lang$core$List$map,
-		function (line) {
-			return A2(
-				_elm_lang$html$Html$tr,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
-				_nickbdyer$elm_ttt$UI$showCells(line));
-		},
-		_nickbdyer$elm_ttt$UI$sliceInRows(board));
-};
-var _nickbdyer$elm_ttt$UI$showBoard = function (board) {
+			_nickbdyer$elm_ttt$UI$sliceInRows(board));
+	});
+var _nickbdyer$elm_ttt$UI$showBoard = function (game) {
 	return A2(
 		_elm_lang$html$Html$table,
 		_elm_lang$core$Native_List.fromArray(
 			[]),
-		_nickbdyer$elm_ttt$UI$showRows(board));
+		A2(
+			_nickbdyer$elm_ttt$UI$showRows,
+			_nickbdyer$elm_ttt$Game$board(game),
+			_nickbdyer$elm_ttt$Game$retrieveState(game)));
 };
 
 var _nickbdyer$elm_ttt$TicTacToe$view = function (model) {
@@ -8091,13 +8346,20 @@ var _nickbdyer$elm_ttt$TicTacToe$view = function (model) {
 					[
 						_elm_lang$html$Html$text('Tic Tac Toe')
 					])),
-				_nickbdyer$elm_ttt$UI$showBoard(model.board)
+				_nickbdyer$elm_ttt$UI$showGameState(model),
+				_nickbdyer$elm_ttt$UI$showBoard(model),
+				_nickbdyer$elm_ttt$UI$showReset
 			]));
 };
 var _nickbdyer$elm_ttt$TicTacToe$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		return A2(_nickbdyer$elm_ttt$Game$takeTurn, _p0._0, model);
+		if (_p0.ctor === 'Mark') {
+			return A2(_nickbdyer$elm_ttt$Game$takeTurn, _p0._0, model);
+		} else {
+			return _nickbdyer$elm_ttt$Game$new(
+				_nickbdyer$elm_ttt$Board$new(9));
+		}
 	});
 var _nickbdyer$elm_ttt$TicTacToe$model = _nickbdyer$elm_ttt$Game$new(
 	_nickbdyer$elm_ttt$Board$new(9));
