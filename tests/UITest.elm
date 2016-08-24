@@ -14,55 +14,7 @@ import Game exposing (new)
 all : Test
 all =
     describe "UI Test"
-        [ test "UI can display the board" <|
-          \() -> 
-            showBoard (Game.new (Board.new 9))
-              |> Expect.equal (table [] [
-                tr [] [
-                  td [] [button [onClick (Mark 0)] [text ""]],
-                  td [] [button [onClick (Mark 1)] [text ""]],
-                  td [] [button [onClick (Mark 2)] [text ""]]
-                  ]
-                  , tr [] [
-                  td [] [button [onClick (Mark 3)] [text ""]],
-                  td [] [button [onClick (Mark 4)] [text ""]],
-                  td [] [button [onClick (Mark 5)] [text ""]]
-                  ]
-                  , tr [] [
-                  td [] [button [onClick (Mark 6)] [text ""]],
-                  td [] [button [onClick (Mark 7)] [text ""]],
-                  td [] [button [onClick (Mark 8)] [text ""]]
-                  ]
-               ])
-
-        , test "Cells with marks do not have onClick events" <|
-          \() -> 
-            let
-                boardList = [Nothing, Nothing, Nothing, 
-                             Just X, Just O, Just X, 
-                             Nothing, Nothing, Nothing]
-                board = fromList boardList
-            in
-            showBoard (Game.new (board))
-              |> Expect.equal (table [] [
-                tr [] [
-                  td [] [button [onClick (Mark 0)] [text ""]],
-                  td [] [button [onClick (Mark 1)] [text ""]],
-                  td [] [button [onClick (Mark 2)] [text ""]]
-                  ]
-                  , tr [] [
-                  td [] [button [] [text "X"]],
-                  td [] [button [] [text "O"]],
-                  td [] [button [] [text "X"]]
-                  ]
-                  , tr [] [
-                  td [] [button [onClick (Mark 6)] [text ""]],
-                  td [] [button [onClick (Mark 7)] [text ""]],
-                  td [] [button [onClick (Mark 8)] [text ""]]
-                  ]
-               ])
-
-        , test "Board can be cut as 2D a collection of rows" <|
+        [ test "Board can be cut as 2D a collection of rows" <|
             \() ->
               sliceInRows (Board.new 9)
                 |> Expect.equal [ [ (0, Nothing)
