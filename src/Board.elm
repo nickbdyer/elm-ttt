@@ -5,7 +5,6 @@ import Array exposing (..)
 import Lines exposing (getRows, getColumns, getDiagonals)
 
 type Mark = X | O
-
 type alias Board = Array (Maybe Mark)
 
 
@@ -42,13 +41,12 @@ winner : Board -> Maybe Mark
 winner board =
   let
       combos = getCombosList board
-
       linesWithWinners = map winnerOnLine combos
   in 
       Maybe.oneOf (toList linesWithWinners)
 
 
-getCombosList : Array (Maybe Mark) -> Array (Array (Maybe Mark))
+getCombosList : Board -> Array (Array (Maybe Mark))
 getCombosList board =
   let 
       rows = getRows board
