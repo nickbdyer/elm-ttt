@@ -41,9 +41,9 @@ winner : Board -> Maybe Mark
 winner board =
   let
       combos = getCombosList board
-      linesWithWinners = map winnerOnLine combos
+      potentialWinners = map winnerOnLine combos
   in 
-      Maybe.oneOf (toList linesWithWinners)
+      Maybe.oneOf (toList potentialWinners)
 
 
 getCombosList : Board -> Array (Array (Maybe Mark))
