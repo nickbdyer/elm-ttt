@@ -14,8 +14,7 @@ getColumns : Array (Maybe a) -> Array (Array (Maybe a))
 getColumns board = 
   let 
       rows = getRows board
-      width = length rows
-      iter = initialize width identity
+      iter = initialize (length rows) identity
   in
       map (\columnNumber -> (makeColumn columnNumber rows)) iter
 
@@ -24,12 +23,11 @@ getDiagonals : Array (Maybe a) -> Array (Array (Maybe a))
 getDiagonals board =
   let 
       rows = getRows board
-      reverseRows = map (\row -> fromList (reverse (toList row))) rows
+      reversedRows = map (\row -> fromList (reverse (toList row))) rows
       leftDiagonal = getDiagonal rows
-      rightDiagonal = getDiagonal reverseRows
+      rightDiagonal = getDiagonal reversedRows
   in
-      empty
-        |> push leftDiagonal
+      push leftDiagonal empty
         |> push rightDiagonal
 
 
@@ -59,8 +57,7 @@ flatMap array =
     |> map (\cell ->
         case cell of
           Just (Just a) -> Just a
-          Just (Nothing) -> Nothing
-          Nothing -> Nothing) 
+          _ -> Nothing) 
 
 
 getSlicePoints : Array (Maybe a) -> Array (Int, Int)
