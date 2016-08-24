@@ -16,7 +16,7 @@ all =
     describe "UI Test"
         [ test "Board can be cut as 2D a collection of rows" <|
             \() ->
-              sliceInRows (Board.new 9)
+              sliceInRows (Board.new 3)
                 |> Expect.equal [ [ (0, Nothing)
                                   , (1, Nothing)
                                   , (2, Nothing)
@@ -27,18 +27,18 @@ all =
                                   ], [
                                     (6, Nothing)
                                   , (7, Nothing)
-                                  , (8, Nothing) 
-                                  ] 
+                                  , (8, Nothing)
+                                  ]
                                 ]
 
         , test "A board of size 9 has a display width of 3" <|
             \() ->
-              getWidth (Board.new 9)
+              getWidth (Board.new 3)
                 |> Expect.equal 3
 
         , test "A board of size 16 has a display width of 4" <|
             \() ->
-              getWidth (Board.new 16)
+              getWidth (Board.new 4)
                 |> Expect.equal 4
         ]
 
