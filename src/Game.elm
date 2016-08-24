@@ -1,4 +1,4 @@
-module Game exposing (Game, GameState(..), new, takeTurn, retrieveState)
+module Game exposing (..)
 
 import Board exposing (Board, Mark(..), mark, full, winner)
 
@@ -13,8 +13,8 @@ new board =
 
 takeTurn : Int -> Game -> Game
 takeTurn position game = 
-  {game | board = mark position game.currentPlayer game.board,
-          currentPlayer = opponent game.currentPlayer }
+  {game | board = mark position (currentPlayer game) game.board,
+          currentPlayer = opponent (currentPlayer game) }
 
 
 opponent : Mark -> Mark
@@ -34,3 +34,7 @@ retrieveState game =
       (Nothing, True) -> Draw
       (Nothing, False) -> InPlay
 
+
+currentPlayer : Game -> Mark
+currentPlayer game =
+  game.currentPlayer
