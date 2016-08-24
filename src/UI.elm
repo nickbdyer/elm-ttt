@@ -1,42 +1,57 @@
-module UI exposing (Msg(..), showBoard, sliceInRows, getWidth)
+module UI exposing (Msg(..), showBoard, sliceInRows, getWidth, showReset, showGameState)
 
-import Html exposing (Html, div, text, button, table, tr, td)
+import Html exposing (Html, h3, div, text, button, table, tr, td)
 import Html.App as Html
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (value)
 
 import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
+import Game exposing (Game, GameState(..), retrieveState, board)
 
-type Msg = Mark Int
+type Msg = Mark Int | Reset
 type alias Row = List (Int, Maybe Mark)
 
 
-showBoard : Board -> Html Msg
-showBoard board =
-  table [] (showRows board)
+showGameState : Game -> Html a
+showGameState game =
+  case (retrieveState game) of
+    Winner mark -> h3 [] [text ("The winner is " ++ (toString mark))]
+    Draw -> h3 [] [text "It's a draw" ]
+    InPlay -> h3 [] [text ((toString game.currentPlayer) ++ " it is your turn")]
 
 
-showRows : Array (Maybe Mark) -> List (Html Msg)
-showRows board =
-    List.map (\line -> tr [] (showCells line)) (sliceInRows board)
+showReset : Html Msg
+showReset =
+  button [onClick Reset] [ text "Reset" ]
 
 
-showCells : Row -> List (Html Msg)
-showCells line =
+showBoard : Game -> Html Msg
+showBoard game =
+  table [] (showRows (board game) (retrieveState game))
+
+
+showRows : Array (Maybe Mark) -> GameState -> List (Html Msg)
+showRows board state =
+    List.map (\line -> tr [] (showCells line state)) (sliceInRows board)
+
+
+showCells : Row -> GameState -> List (Html Msg)
+showCells line state =
   line
     |> List.map (\mark -> ((fst mark), (Maybe.map toString (snd mark))))
     |> List.map (\cell -> 
-      case (snd cell) of
-        Just symbol -> td [] [button [] [text symbol]]
-        Nothing -> td [] [button [onClick (Mark (fst cell))] [text ""]])
+      case ((snd cell), (state)) of
+        (Just symbol, _ ) -> td [] [button [] [text symbol]]
+        (Nothing, InPlay) -> td [] [button [onClick (Mark (fst cell))] [text ""]]
+        (Nothing, _ )  -> td [] [button [] [text ""]])
 
 
 sliceInRows : Board -> List (List (Int, Maybe Mark))
 sliceInRows board =
   let
       board = toArray board
-      indexedBoard = embedIndexes board
+      indexedBoard = indexedMap (,) board
       slicePoints = getSlicePoints indexedBoard
   in
       slicePoints
@@ -51,11 +66,6 @@ getSlicePoints board =
       iter = initialize width (\n -> width*n)
   in
       map (\num -> (num, (num + width))) iter
-
-
-embedIndexes : Array (Maybe Mark) -> Array (Int, Maybe Mark)
-embedIndexes board =
-  indexedMap (,) board
 
 
 getWidth : Array a -> Int
