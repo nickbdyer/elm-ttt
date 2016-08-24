@@ -4,7 +4,6 @@ import Html exposing (Html, div, h1, text)
 import Html.App as Html
 import Board exposing (Board, Mark(..), new)
 import UI exposing (Msg(..), showBoard, showReset, showGameState)
-import Array exposing (initialize)
 import Game exposing (Game, takeTurn)
 
 main =
@@ -18,19 +17,19 @@ initialModel : Model
 initialModel =
   Game.new (Board.new 3)
 
+
 -- UPDATE
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-    Mark position ->
+    TakeTurn position ->
       takeTurn position model
     Reset ->
       initialModel
 
 
 -- VIEW
-
 
 view : Model -> Html Msg
 view model =
@@ -40,4 +39,3 @@ view model =
     showBoard model,
     showReset
   ]
-

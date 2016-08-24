@@ -9,7 +9,7 @@ import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
 import Game exposing (Game, GameState(..), retrieveState, board, currentPlayer)
 
-type Msg = Mark Int | Reset
+type Msg = TakeTurn Int | Reset
 type alias Row = List (Int, Maybe Mark)
 
 
@@ -42,7 +42,7 @@ showCells line state =
     |> List.map (\(index, cell) ->
       case (cell, state) of
         (Just symbol, _ ) -> td [] [button [] [text (toString symbol)]]
-        (Nothing, InPlay) -> td [] [button [onClick (Mark index)] [text ""]]
+        (Nothing, InPlay) -> td [] [button [onClick (TakeTurn index)] [text ""]]
         (Nothing, _ )  -> td [] [button [] [text ""]])
 
 
