@@ -15,13 +15,10 @@ type alias Row = List (Int, Maybe Mark)
 
 showGameState : Game -> Html a
 showGameState game =
-  let 
-      state = retrieveState game
-  in
-    case state of
-      Winner mark -> h3 [] [text ("The winner is " ++ (toString mark))]
-      Draw -> h3 [] [text "It's a draw" ]
-      InPlay -> h3 [] [text ((toString game.currentPlayer) ++ " it is your turn")]
+  case (retrieveState game) of
+    Winner mark -> h3 [] [text ("The winner is " ++ (toString mark))]
+    Draw -> h3 [] [text "It's a draw" ]
+    InPlay -> h3 [] [text ((toString game.currentPlayer) ++ " it is your turn")]
 
 
 showReset : Html Msg
@@ -54,7 +51,7 @@ sliceInRows : Board -> List (List (Int, Maybe Mark))
 sliceInRows board =
   let
       board = toArray board
-      indexedBoard = embedIndexes board
+      indexedBoard = indexedMap (,) board
       slicePoints = getSlicePoints indexedBoard
   in
       slicePoints
@@ -69,11 +66,6 @@ getSlicePoints board =
       iter = initialize width (\n -> width*n)
   in
       map (\num -> (num, (num + width))) iter
-
-
-embedIndexes : Array (Maybe Mark) -> Array (Int, Maybe Mark)
-embedIndexes board =
-  indexedMap (,) board
 
 
 getWidth : Array a -> Int
