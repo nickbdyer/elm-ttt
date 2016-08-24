@@ -8,6 +8,7 @@ import BoardTest
 import TicTacToeTest
 import GameTest
 import UITest
+import LinesTest
 
 all : Test
 all =
@@ -16,4 +17,5 @@ all =
         , UITest.all
         , GameTest.all
         , TicTacToeTest.all
+        , LinesTest.all
         ]
