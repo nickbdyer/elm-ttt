@@ -8,6 +8,7 @@ import Array exposing (fromList)
 
 import Board exposing (Mark(..), new)
 import UI exposing (sliceInRows, showBoard, Msg(..), getWidth)
+import Game exposing (new)
 
 
 all : Test
@@ -15,7 +16,7 @@ all =
     describe "UI Test"
         [ test "UI can display the board" <|
           \() -> 
-            showBoard (Board.new 9)
+            showBoard (Game.new (Board.new 9))
               |> Expect.equal (table [] [
                 tr [] [
                   td [] [button [onClick (Mark 0)] [text ""]],
@@ -42,7 +43,7 @@ all =
                              Nothing, Nothing, Nothing]
                 board = fromList boardList
             in
-              showBoard board               
+            showBoard (Game.new (board))
               |> Expect.equal (table [] [
                 tr [] [
                   td [] [button [onClick (Mark 0)] [text ""]],

@@ -38,7 +38,7 @@ view model =
   div [] [
     h1 [] [ text "Tic Tac Toe" ],
     showGameState model,
-    showBoard model.board,
+    showBoard model,
     showReset
   ]
 

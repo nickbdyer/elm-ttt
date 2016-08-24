@@ -29,24 +29,25 @@ showReset =
   button [onClick Reset] [ text "Reset" ]
 
 
-showBoard : Board -> Html Msg
-showBoard board =
-  table [] (showRows board)
+showBoard : Game -> Html Msg
+showBoard game =
+  table [] (showRows game.board (retrieveState game))
 
 
-showRows : Array (Maybe Mark) -> List (Html Msg)
-showRows board =
-    List.map (\line -> tr [] (showCells line)) (sliceInRows board)
+showRows : Array (Maybe Mark) -> GameState -> List (Html Msg)
+showRows board state =
+    List.map (\line -> tr [] (showCells line state)) (sliceInRows board)
 
 
-showCells : Row -> List (Html Msg)
-showCells line =
+showCells : Row -> GameState -> List (Html Msg)
+showCells line state =
   line
     |> List.map (\mark -> ((fst mark), (Maybe.map toString (snd mark))))
     |> List.map (\cell -> 
-      case (snd cell) of
-        Just symbol -> td [] [button [] [text symbol]]
-        Nothing -> td [] [button [onClick (Mark (fst cell))] [text ""]])
+      case ((snd cell), (state)) of
+        (Just symbol, _ ) -> td [] [button [] [text symbol]]
+        (Nothing, InPlay) -> td [] [button [onClick (Mark (fst cell))] [text ""]]
+        (Nothing, _ )  -> td [] [button [] [text ""]])
 
 
 sliceInRows : Board -> List (List (Int, Maybe Mark))
