@@ -15,33 +15,33 @@ all =
     describe "TicTacToe Test"
         [ test "When a cell is clicked, a move is played" <|
             \() ->
-              let 
-                game = (Game.new (Board.new 9))
+              let
+                game = (Game.new (Board.new 3))
               in
-                update (Mark 5) game
+                update (TakeTurn 5) game
                   |> board
                   |> get 5
                   |> Expect.equal (Just (Just X))
 
         , test "When a cell is clicked twice, the first move remains" <|
             \() ->
-              let 
-                game = (Game.new (Board.new 9))
+              let
+                game = (Game.new (Board.new 3))
               in
                 game
-                  |> update (Mark 5)
-                  |> update (Mark 5)
+                  |> update (TakeTurn 5)
+                  |> update (TakeTurn 5)
                   |> board
                   |> get 5
                   |> Expect.equal (Just (Just X))
 
          , test "When a cell is clicked, a move is played" <|
             \() ->
-              let 
-                game = (Game.new (Board.new 9))
+              let
+                game = (Game.new (Board.new 3))
               in
-                update (Mark 5) game
-                  |> update Reset 
+                update (TakeTurn 5) game
+                  |> update Reset
                   |> Expect.equal game
 
         ]

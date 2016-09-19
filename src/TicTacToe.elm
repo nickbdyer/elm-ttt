@@ -4,41 +4,38 @@ import Html exposing (Html, div, h1, text)
 import Html.App as Html
 import Board exposing (Board, Mark(..), new)
 import UI exposing (Msg(..), showBoard, showReset, showGameState)
-import Array exposing (initialize)
-import Game exposing (Game, new, takeTurn)
+import Game exposing (Game, takeTurn)
 
-main = 
-  Html.beginnerProgram { model = model, update = update, view = view }
+main =
+  Html.beginnerProgram { model = initialModel, update = update, view = view }
 
 -- MODEL
 
 type alias Model = Game
- 
-model : Model
-model = 
-  Game.new (Board.new 9)
+
+initialModel : Model
+initialModel =
+  Game.new (Board.new 3)
+
 
 -- UPDATE
 
-
 update : Msg -> Model -> Model
-update msg model = 
-  case msg of 
-    Mark position -> 
+update msg model =
+  case msg of
+    TakeTurn position ->
       takeTurn position model
-    Reset -> 
-      Game.new (Board.new 9)
-      
+    Reset ->
+      initialModel
+
 
 -- VIEW
 
-
 view : Model -> Html Msg
-view model = 
+view model =
   div [] [
     h1 [] [ text "Tic Tac Toe" ],
     showGameState model,
     showBoard model,
     showReset
   ]
-

@@ -7,9 +7,9 @@ import Html.Attributes exposing (value)
 
 import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
-import Game exposing (Game, GameState(..), retrieveState, board)
+import Game exposing (Game, GameState(..), retrieveState, board, currentPlayer)
 
-type Msg = Mark Int | Reset
+type Msg = TakeTurn Int | Reset
 type alias Row = List (Int, Maybe Mark)
 
 
@@ -18,7 +18,7 @@ showGameState game =
   case (retrieveState game) of
     Winner mark -> h3 [] [text ("The winner is " ++ (toString mark))]
     Draw -> h3 [] [text "It's a draw" ]
-    InPlay -> h3 [] [text ((toString game.currentPlayer) ++ " it is your turn")]
+    InPlay -> h3 [] [text ((toString (currentPlayer game)) ++ " it is your turn")]
 
 
 showReset : Html Msg
@@ -39,11 +39,10 @@ showRows board state =
 showCells : Row -> GameState -> List (Html Msg)
 showCells line state =
   line
-    |> List.map (\mark -> ((fst mark), (Maybe.map toString (snd mark))))
-    |> List.map (\cell -> 
-      case ((snd cell), (state)) of
-        (Just symbol, _ ) -> td [] [button [] [text symbol]]
-        (Nothing, InPlay) -> td [] [button [onClick (Mark (fst cell))] [text ""]]
+    |> List.map (\(index, cell) ->
+      case (cell, state) of
+        (Just symbol, _ ) -> td [] [button [] [text (toString symbol)]]
+        (Nothing, InPlay) -> td [] [button [onClick (TakeTurn index)] [text ""]]
         (Nothing, _ )  -> td [] [button [] [text ""]])
 
 
@@ -55,13 +54,13 @@ sliceInRows board =
       slicePoints = getSlicePoints indexedBoard
   in
       slicePoints
-        |> map (\tuple -> toList (slice (fst tuple) (snd tuple) indexedBoard))
+        |> map (\(from, to) -> toList (slice from to indexedBoard))
         |> toList
 
 
 getSlicePoints : Array (Int, Maybe Mark) -> Array (Int, Int)
 getSlicePoints board =
-  let 
+  let
       width = getWidth board
       iter = initialize width (\n -> width*n)
   in
@@ -69,7 +68,7 @@ getSlicePoints board =
 
 
 getWidth : Array a -> Int
-getWidth board = 
+getWidth board =
   round (sqrt (toFloat (length board)))
 
 

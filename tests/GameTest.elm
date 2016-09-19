@@ -13,20 +13,20 @@ all =
     describe "Game Test"
         [ test "A new game knows the current player is X" <|
             \() ->
-              (Game.new (Board.new 9))
+              (Game.new (Board.new 3))
                 |> currentPlayer
                 |> Expect.equal X
 
         , test "After processing one turn, the currentPlayer is O" <|
             \() ->
-              (Game.new (Board.new 9))
+              (Game.new (Board.new 3))
                 |> takeTurn 4
                 |> currentPlayer
                 |> Expect.equal O
 
         , test "After processing two turns, the currentPlayer is X" <|
             \() ->
-              (Game.new (Board.new 9))
+              (Game.new (Board.new 3))
                 |> takeTurn 4
                 |> takeTurn 5
                 |> currentPlayer
@@ -34,7 +34,7 @@ all =
 
         , test "Game knows when the game is inplay" <|
             \() ->
-              (Game.new (Board.new 9))
+              (Game.new (Board.new 3))
                 |> retrieveState
                 |> Expect.equal InPlay
 
