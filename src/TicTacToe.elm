@@ -1,6 +1,6 @@
 module TicTacToe exposing (..)
 
-import Html exposing (Html, div, h1, text)
+import Html exposing (Html, button, div, h1, text)
 import Html.App as Html
 import Board exposing (Board, Mark(..), new)
 import UI exposing (Msg(..), showBoard, showReset, showGameState)
@@ -11,11 +11,12 @@ main =
 
 -- MODEL
 
-type alias Model = Game
+type PlayState = NotStarted | InProgress Game
+type alias Model = {playState : PlayState}
 
 initialModel : Model
 initialModel =
-  Game.new (Board.new 3)
+    {playState = NotStarted}
 
 
 -- UPDATE
@@ -24,18 +25,25 @@ update : Msg -> Model -> Model
 update msg model =
   case msg of
     TakeTurn position ->
-      takeTurn position model
+      case model.playState of
+        InProgress model -> {playState = InProgress (takeTurn position model)}
+        NotStarted -> {playState = NotStarted}
     Reset ->
-      initialModel
+      {playState = NotStarted}
 
 
 -- VIEW
 
 view : Model -> Html Msg
 view model =
-  div [] [
-    h1 [] [ text "Tic Tac Toe" ],
-    showGameState model,
-    showBoard model,
-    showReset
-  ]
+  case model.playState of
+    NotStarted -> div [] [
+      button [] [text "Human vs Human"],
+      button [] [text "Human vs Computer"]
+      ]
+    InProgress model -> div [] [
+      h1 [] [ text "Tic Tac Toe" ],
+      showGameState model,
+      showBoard model,
+      showReset
+    ]
