@@ -6,19 +6,20 @@ type alias Game = {board : Board, currentPlayer : Mark}
 
 type GameState = Winner Mark | Draw | InPlay
 
+
 new : Board -> Game
-new board = 
+new board =
   {board = board, currentPlayer = X}
 
 
 takeTurn : Int -> Game -> Game
-takeTurn position game = 
+takeTurn position game =
   {game | board = mark position (currentPlayer game) (board game),
           currentPlayer = opponent (currentPlayer game) }
 
 
 opponent : Mark -> Mark
-opponent mark = 
+opponent mark =
   case mark of
     X -> O
     O -> X
@@ -38,8 +39,8 @@ retrieveState game =
 currentPlayer : Game -> Mark
 currentPlayer game =
   game.currentPlayer
-  
-  
+
+
 board : Game -> Board
 board game =
   game.board
