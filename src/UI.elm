@@ -9,7 +9,7 @@ import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
 import Game exposing (Game, GameState(..), retrieveState, board, currentPlayer)
 
-type Msg = TakeTurn Int | Reset
+type Msg = TakeTurn Int | Reset | GameType String
 type alias Row = List (Int, Maybe Mark)
 
 

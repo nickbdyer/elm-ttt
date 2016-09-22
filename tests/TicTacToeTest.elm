@@ -46,6 +46,15 @@ all =
                   |> update Reset
                   |> Expect.equal {playState = NotStarted}
 
+         , test "An unstarted game can be started after making a selection" <|
+            \() ->
+              let
+                game = {playState = NotStarted}
+              in
+                update (GameType "HvH") game
+                  |> Expect.equal {playState = InProgress (Game.new (Board.new 3))}
+
+
         ]
 
 
