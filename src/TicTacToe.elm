@@ -6,6 +6,7 @@ import Html.App as Html
 import Board exposing (Board, Mark(..), new)
 import UI exposing (Msg(..), GameType(..), showGameSelection, showGame)
 import Game exposing (Game, takeTurn)
+import Computer exposing (chooseMove)
 
 main =
   Html.beginnerProgram { model = initialModel, update = update, view = view }
@@ -31,7 +32,11 @@ update msg model =
       {playState = InProgress (Game.new (Board.new 3))}
     HumanMove position ->
       case model.playState of
-        InProgress game -> {playState = InProgress (takeTurn position game)}
+        InProgress game -> {playState = InProgress (takeTurn (Just position) game)}
+        NotStarted -> {playState = NotStarted}
+    ComputerMove ->
+      case model.playState of
+        InProgress game -> {playState = InProgress (takeTurn (chooseMove game.board) game)}
         NotStarted -> {playState = NotStarted}
     _ -> {playState = NotStarted }
 

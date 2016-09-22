@@ -12,11 +12,12 @@ new board =
   {board = board, currentPlayer = X}
 
 
-takeTurn : Int -> Game -> Game
+takeTurn : Maybe Int -> Game -> Game
 takeTurn position game =
-  {game | board = mark position (currentPlayer game) (board game),
+  case position of
+    Just a -> {game | board = mark a (currentPlayer game) (board game),
           currentPlayer = opponent (currentPlayer game) }
-
+    Nothing -> game
 
 opponent : Mark -> Mark
 opponent mark =

@@ -10,7 +10,7 @@ import Array exposing (..)
 import Game exposing (Game, GameState(..), retrieveState, board, currentPlayer)
 
 type GameType = HvH | HvC | CvH | CvC
-type Msg = HumanMove Int | Reset | SelectGameType GameType
+type Msg = HumanMove Int | ComputerMove | Reset | SelectGameType GameType
 type alias Row = List (Int, Maybe Mark)
 
 showGame : Game -> Html Msg

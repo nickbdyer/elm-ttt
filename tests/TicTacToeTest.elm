@@ -54,6 +54,18 @@ all =
                 update (SelectGameType HvH) game
                   |> Expect.equal {playState = InProgress (Game.new (Board.new 3))}
 
+         , test "A dumb computer move can be made" <|
+            \() ->
+              let
+                game = (Game.new (Board.new 3))
+                updatedGame = update (ComputerMove) {playState = InProgress game}
+              in
+                  case updatedGame.playState of
+                    InProgress game -> board game
+                      |> get 0
+                      |> Expect.equal (Just (Just X))
+                    _ -> Expect.fail "expected game to be in progress"
+
         ]
 
 
