@@ -1,17 +1,33 @@
-module UI exposing (Msg(..), showBoard, sliceInRows, getWidth, showReset, showGameState)
+module UI exposing (Msg(..), showGame, sliceInRows, getWidth, showGameSelection)
 
-import Html exposing (Html, h3, div, text, button, table, tr, td)
+import Html exposing (Html, h1, h3, div, text, button, table, tr, td)
 import Html.App as Html
 import Html.Events exposing (onClick)
-import Html.Attributes exposing (value)
+import Html.Attributes exposing (value, attribute)
 
 import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
-import Game exposing (Game, GameState(..), retrieveState, board, currentPlayer)
+import Game exposing (Game, GameState(..), GameType(..), retrieveState, board, currentPlayer)
 
-type Msg = TakeTurn Int | Reset
+type Msg = HumanMove Int | ComputerMove | Reset | SelectGameType GameType
 type alias Row = List (Int, Maybe Mark)
 
+showGame : Game -> Html Msg
+showGame game =
+  div [] [
+    h1 [] [ text "Tic Tac Toe" ],
+    showGameState game,
+    showBoard game,
+    showReset
+  ]
+
+showGameSelection : Html Msg
+showGameSelection =
+  div [] [
+    button [attribute "class" ("gameType"), onClick (SelectGameType HvH)] [text "Human vs Human"],
+    button [attribute "class" ("gameType"), onClick (SelectGameType HvC)] [text "Human vs Computer"],
+    button [attribute "class" ("gameType"), onClick (SelectGameType CvH)] [text "Computer vs Human"]
+    ]
 
 showGameState : Game -> Html a
 showGameState game =
@@ -42,7 +58,7 @@ showCells line state =
     |> List.map (\(index, cell) ->
       case (cell, state) of
         (Just symbol, _ ) -> td [] [button [] [text (toString symbol)]]
-        (Nothing, InPlay) -> td [] [button [onClick (TakeTurn index)] [text ""]]
+        (Nothing, InPlay) -> td [] [button [onClick (HumanMove index)] [text ""]]
         (Nothing, _ )  -> td [] [button [] [text ""]])
 
 

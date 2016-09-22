@@ -9,6 +9,7 @@ import TicTacToeTest
 import GameTest
 import UITest
 import LinesTest
+import ComputerTest
 
 all : Test
 all =
@@ -18,4 +19,5 @@ all =
         , GameTest.all
         , TicTacToeTest.all
         , LinesTest.all
+        , ComputerTest.all
         ]

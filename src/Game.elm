@@ -5,20 +5,26 @@ import Board exposing (Board, Mark(..), mark, full, winner)
 type alias Game = {board : Board, currentPlayer : Mark}
 
 type GameState = Winner Mark | Draw | InPlay
+type GameType = HvH | HvC | CvH | CvC
+
 
 new : Board -> Game
-new board = 
+new board =
   {board = board, currentPlayer = X}
 
 
-takeTurn : Int -> Game -> Game
-takeTurn position game = 
-  {game | board = mark position (currentPlayer game) (board game),
-          currentPlayer = opponent (currentPlayer game) }
-
+takeTurn : Maybe Int -> Game -> Game
+takeTurn position game =
+  let
+    tuple = (,) position (retrieveState game)
+  in
+    case tuple of
+      (Just a, InPlay) -> {game | board = mark a (currentPlayer game) (board game),
+                                  currentPlayer = opponent (currentPlayer game) }
+      _ -> game
 
 opponent : Mark -> Mark
-opponent mark = 
+opponent mark =
   case mark of
     X -> O
     O -> X
@@ -38,8 +44,8 @@ retrieveState game =
 currentPlayer : Game -> Mark
 currentPlayer game =
   game.currentPlayer
-  
-  
+
+
 board : Game -> Board
 board game =
   game.board

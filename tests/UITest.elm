@@ -7,7 +7,7 @@ import Html.Events exposing (onClick)
 import Array exposing (fromList)
 
 import Board exposing (Mark(..), new)
-import UI exposing (sliceInRows, showBoard, Msg(..), getWidth)
+import UI exposing (sliceInRows, Msg(..), getWidth)
 import Game exposing (new)
 
 

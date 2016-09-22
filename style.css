@@ -19,3 +19,7 @@ button {
   background-color: lightgray;
   font-size: 2em;
 }
+
+.gameType {
+  width: 400px;
+}
