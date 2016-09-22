@@ -31,7 +31,7 @@ update msg model =
       {playState = InProgress (Game.new (Board.new 3))}
     TakeTurn position ->
       case model.playState of
-        InProgress model -> {playState = InProgress (takeTurn position model)}
+        InProgress game -> {playState = InProgress (takeTurn position game)}
         NotStarted -> {playState = NotStarted}
     _ -> {playState = NotStarted }
 
