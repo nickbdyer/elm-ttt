@@ -32,6 +32,22 @@ all =
                 |> currentPlayer
                 |> Expect.equal X
 
+        , test "Game will not mark board when in draw state" <|
+            \() ->
+              let
+                  game = (Game.new (createDrawBoard))
+              in
+                takeTurn (Just 4) game
+                  |> Expect.equal game
+
+        , test "Game will not mark board when in win state" <|
+            \() ->
+              let
+                  game = (Game.new (createOWinningBoard))
+              in
+                takeTurn (Just 4) game
+                |> Expect.equal game
+
         , test "Game knows when the game is inplay" <|
             \() ->
               (Game.new (Board.new 3))

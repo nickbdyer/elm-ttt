@@ -15,10 +15,13 @@ new board =
 
 takeTurn : Maybe Int -> Game -> Game
 takeTurn position game =
-  case position of
-    Just a -> {game | board = mark a (currentPlayer game) (board game),
-          currentPlayer = opponent (currentPlayer game) }
-    Nothing -> game
+  let
+    tuple = (,) position (retrieveState game)
+  in
+    case tuple of
+      (Just a, InPlay) -> {game | board = mark a (currentPlayer game) (board game),
+                                  currentPlayer = opponent (currentPlayer game) }
+      _ -> game
 
 opponent : Mark -> Mark
 opponent mark =
