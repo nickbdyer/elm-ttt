@@ -4,8 +4,8 @@ import Html exposing (Html, button, div, h1, text)
 import Html.Events exposing (onClick)
 import Html.App as Html
 import Board exposing (Board, Mark(..), new)
-import UI exposing (Msg(..), GameType(..), showGameSelection, showGame)
-import Game exposing (Game, takeTurn)
+import UI exposing (Msg(..), showGameSelection, showGame)
+import Game exposing (Game, GameType(..), takeTurn)
 import Computer exposing (chooseMove)
 
 main =

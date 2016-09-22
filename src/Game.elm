@@ -5,6 +5,7 @@ import Board exposing (Board, Mark(..), mark, full, winner)
 type alias Game = {board : Board, currentPlayer : Mark}
 
 type GameState = Winner Mark | Draw | InPlay
+type GameType = HvH | HvC | CvH | CvC
 
 
 new : Board -> Game

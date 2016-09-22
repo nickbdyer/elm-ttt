@@ -5,9 +5,9 @@ import Expect
 
 import TicTacToe exposing (PlayState(..), update)
 import Array exposing (get)
-import Game exposing (board)
+import Game exposing (GameType(..), board)
 import Board exposing (Mark(..), full)
-import UI exposing (Msg(..), GameType(..))
+import UI exposing (Msg(..))
 
 
 all : Test

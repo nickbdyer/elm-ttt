@@ -1,4 +1,4 @@
-module UI exposing (Msg(..), GameType(..), showGame, sliceInRows, getWidth, showGameSelection)
+module UI exposing (Msg(..), showGame, sliceInRows, getWidth, showGameSelection)
 
 import Html exposing (Html, h1, h3, div, text, button, table, tr, td)
 import Html.App as Html
@@ -7,9 +7,8 @@ import Html.Attributes exposing (value)
 
 import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
-import Game exposing (Game, GameState(..), retrieveState, board, currentPlayer)
+import Game exposing (Game, GameState(..), GameType(..), retrieveState, board, currentPlayer)
 
-type GameType = HvH | HvC | CvH | CvC
 type Msg = HumanMove Int | ComputerMove | Reset | SelectGameType GameType
 type alias Row = List (Int, Maybe Mark)
 
