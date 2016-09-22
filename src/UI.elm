@@ -3,7 +3,7 @@ module UI exposing (Msg(..), showGame, sliceInRows, getWidth, showGameSelection)
 import Html exposing (Html, h1, h3, div, text, button, table, tr, td)
 import Html.App as Html
 import Html.Events exposing (onClick)
-import Html.Attributes exposing (value)
+import Html.Attributes exposing (value, attribute)
 
 import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
@@ -24,9 +24,9 @@ showGame game =
 showGameSelection : Html Msg
 showGameSelection =
   div [] [
-    button [onClick (SelectGameType HvH)] [text "Human vs Human"],
-    button [onClick (SelectGameType HvC)] [text "Human vs Computer"],
-    button [onClick (SelectGameType CvH)] [text "Computer vs Human"]
+    button [attribute "class" ("gameType"), onClick (SelectGameType HvH)] [text "Human vs Human"],
+    button [attribute "class" ("gameType"), onClick (SelectGameType HvC)] [text "Human vs Computer"],
+    button [attribute "class" ("gameType"), onClick (SelectGameType CvH)] [text "Computer vs Human"]
     ]
 
 showGameState : Game -> Html a
