@@ -13,7 +13,7 @@ all =
             \() ->
               Board.new 3
                 |> Computer.chooseMove
-                |> Expect.equal 0
+                |> Expect.equal (Just 0)
 
         ]
 
