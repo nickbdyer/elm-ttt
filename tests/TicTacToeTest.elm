@@ -7,7 +7,7 @@ import TicTacToe exposing (PlayState(..), update)
 import Array exposing (get)
 import Game exposing (board)
 import Board exposing (Mark(..), full)
-import UI exposing (Msg(..))
+import UI exposing (Msg(..), GameType(..))
 
 
 all : Test
@@ -51,7 +51,7 @@ all =
               let
                 game = {playState = NotStarted}
               in
-                update (GameType "HvH") game
+                update (SelectGameType HvH) game
                   |> Expect.equal {playState = InProgress (Game.new (Board.new 3))}
 
 

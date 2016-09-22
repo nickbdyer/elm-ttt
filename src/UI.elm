@@ -1,4 +1,4 @@
-module UI exposing (Msg(..), showBoard, sliceInRows, getWidth, showReset, showGameState)
+module UI exposing (Msg(..), GameType(..), showBoard, sliceInRows, getWidth, showReset, showGameState)
 
 import Html exposing (Html, h3, div, text, button, table, tr, td)
 import Html.App as Html
@@ -9,7 +9,8 @@ import Board exposing (Board, Mark(..), toArray)
 import Array exposing (..)
 import Game exposing (Game, GameState(..), retrieveState, board, currentPlayer)
 
-type Msg = TakeTurn Int | Reset | GameType String
+type GameType = HvH | HvC | CvH | CvC
+type Msg = TakeTurn Int | Reset | SelectGameType GameType
 type alias Row = List (Int, Maybe Mark)
 
 
