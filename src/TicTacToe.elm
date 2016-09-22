@@ -52,7 +52,7 @@ update msg model =
       case model.playState of
         InProgress game ->
             let
-              newModel = {playState = InProgress (takeTurn (chooseMove game.board) game), nextPlayer = (getNextPlayer model.nextPlayer)}
+              newModel = {playState = InProgress (takeTurn (chooseMove game) game), nextPlayer = (getNextPlayer model.nextPlayer)}
             in
               case newModel.nextPlayer of
                 (Ai, _) -> update ComputerMove newModel
