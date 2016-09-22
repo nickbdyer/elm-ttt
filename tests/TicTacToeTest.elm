@@ -3,10 +3,10 @@ module TicTacToeTest exposing (..)
 import Test exposing (..)
 import Expect
 
-import TicTacToe exposing (update)
+import TicTacToe exposing (PlayState(..), update)
 import Array exposing (get)
 import Game exposing (board)
-import Board exposing (Mark(..))
+import Board exposing (Mark(..), full)
 import UI exposing (Msg(..))
 
 
@@ -17,32 +17,34 @@ all =
             \() ->
               let
                 game = (Game.new (Board.new 3))
+                updatedGame = update (TakeTurn 5) {playState = InProgress game}
               in
-                update (TakeTurn 5) game
-                  |> board
-                  |> get 5
-                  |> Expect.equal (Just (Just X))
+                  case updatedGame.playState of
+                    InProgress game -> board game
+                      |> get 5
+                      |> Expect.equal (Just (Just X))
+                    _ -> Expect.fail "expected game to be in progress"
 
         , test "When a cell is clicked twice, the first move remains" <|
             \() ->
               let
-                game = (Game.new (Board.new 3))
+                game = {playState = InProgress (Game.new (Board.new 3))}
+                updatedGame = update (TakeTurn 5) (update (TakeTurn 5) game)
               in
-                game
-                  |> update (TakeTurn 5)
-                  |> update (TakeTurn 5)
-                  |> board
-                  |> get 5
-                  |> Expect.equal (Just (Just X))
+                case updatedGame.playState of
+                  InProgress game -> board game
+                    |> get 5
+                    |> Expect.equal (Just (Just X))
+                  _ -> Expect.fail "expected game to be in progress"
 
-         , test "When a cell is clicked, a move is played" <|
+         , test "A game can be reset" <|
             \() ->
               let
                 game = (Game.new (Board.new 3))
               in
-                update (TakeTurn 5) game
+                update (TakeTurn 5) {playState = InProgress game}
                   |> update Reset
-                  |> Expect.equal game
+                  |> Expect.equal {playState = NotStarted}
 
         ]
 
