@@ -17,7 +17,7 @@ all =
             \() ->
               let
                 game = (Game.new (Board.new 3))
-                updatedGame = update (TakeTurn 5) {playState = InProgress game}
+                updatedGame = update (HumanMove 5) {playState = InProgress game}
               in
                   case updatedGame.playState of
                     InProgress game -> board game
@@ -29,7 +29,7 @@ all =
             \() ->
               let
                 game = {playState = InProgress (Game.new (Board.new 3))}
-                updatedGame = update (TakeTurn 5) (update (TakeTurn 5) game)
+                updatedGame = update (HumanMove 5) (update (HumanMove 5) game)
               in
                 case updatedGame.playState of
                   InProgress game -> board game
@@ -42,7 +42,7 @@ all =
               let
                 game = (Game.new (Board.new 3))
               in
-                update (TakeTurn 5) {playState = InProgress game}
+                update (HumanMove 5) {playState = InProgress game}
                   |> update Reset
                   |> Expect.equal {playState = NotStarted}
 
@@ -53,7 +53,6 @@ all =
               in
                 update (SelectGameType HvH) game
                   |> Expect.equal {playState = InProgress (Game.new (Board.new 3))}
-
 
         ]
 

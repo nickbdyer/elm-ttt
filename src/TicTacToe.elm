@@ -29,7 +29,7 @@ update msg model =
       {playState = InProgress (Game.new (Board.new 3))}
     SelectGameType HvC ->
       {playState = InProgress (Game.new (Board.new 3))}
-    TakeTurn position ->
+    HumanMove position ->
       case model.playState of
         InProgress game -> {playState = InProgress (takeTurn position game)}
         NotStarted -> {playState = NotStarted}

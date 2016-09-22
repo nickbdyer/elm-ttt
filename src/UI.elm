@@ -10,7 +10,7 @@ import Array exposing (..)
 import Game exposing (Game, GameState(..), retrieveState, board, currentPlayer)
 
 type GameType = HvH | HvC | CvH | CvC
-type Msg = TakeTurn Int | Reset | SelectGameType GameType
+type Msg = HumanMove Int | Reset | SelectGameType GameType
 type alias Row = List (Int, Maybe Mark)
 
 showGame : Game -> Html Msg
@@ -58,7 +58,7 @@ showCells line state =
     |> List.map (\(index, cell) ->
       case (cell, state) of
         (Just symbol, _ ) -> td [] [button [] [text (toString symbol)]]
-        (Nothing, InPlay) -> td [] [button [onClick (TakeTurn index)] [text ""]]
+        (Nothing, InPlay) -> td [] [button [onClick (HumanMove index)] [text ""]]
         (Nothing, _ )  -> td [] [button [] [text ""]])
 
 
