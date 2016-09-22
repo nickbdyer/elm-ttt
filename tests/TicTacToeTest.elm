@@ -23,9 +23,7 @@ all =
                     InProgress game -> board game
                       |> get 5
                       |> Expect.equal (Just (Just X))
-                    NotStarted -> (Board.new 3)
-                      |> full
-                      |> Expect.false "Fail here"
+                    _ -> Expect.fail "expected game to be in progress"
 
         , test "When a cell is clicked twice, the first move remains" <|
             \() ->
@@ -37,9 +35,7 @@ all =
                   InProgress game -> board game
                     |> get 5
                     |> Expect.equal (Just (Just X))
-                  NotStarted -> (Board.new 3)
-                    |> full
-                    |> Expect.false "Fail here"
+                  _ -> Expect.fail "expected game to be in progress"
 
          , test "A game can be reset" <|
             \() ->
