@@ -1,6 +1,6 @@
-module UI exposing (Msg(..), GameType(..), showBoard, sliceInRows, getWidth, showReset, showGameState)
+module UI exposing (Msg(..), GameType(..), showGame, sliceInRows, getWidth, showGameSelection)
 
-import Html exposing (Html, h3, div, text, button, table, tr, td)
+import Html exposing (Html, h1, h3, div, text, button, table, tr, td)
 import Html.App as Html
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (value)
@@ -13,6 +13,21 @@ type GameType = HvH | HvC | CvH | CvC
 type Msg = TakeTurn Int | Reset | SelectGameType GameType
 type alias Row = List (Int, Maybe Mark)
 
+showGame : Game -> Html Msg
+showGame game =
+  div [] [
+    h1 [] [ text "Tic Tac Toe" ],
+    showGameState game,
+    showBoard game,
+    showReset
+  ]
+
+showGameSelection : Html Msg
+showGameSelection =
+  div [] [
+    button [onClick (SelectGameType HvH)] [text "Human vs Human"],
+    button [onClick (SelectGameType HvC)] [text "Human vs Computer"]
+    ]
 
 showGameState : Game -> Html a
 showGameState game =

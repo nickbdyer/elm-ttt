@@ -4,7 +4,7 @@ import Html exposing (Html, button, div, h1, text)
 import Html.Events exposing (onClick)
 import Html.App as Html
 import Board exposing (Board, Mark(..), new)
-import UI exposing (Msg(..), GameType(..), showBoard, showReset, showGameState)
+import UI exposing (Msg(..), GameType(..), showGameSelection, showGame)
 import Game exposing (Game, takeTurn)
 
 main =
@@ -41,13 +41,5 @@ update msg model =
 view : Model -> Html Msg
 view model =
   case model.playState of
-    NotStarted -> div [] [
-      button [onClick (SelectGameType HvH)] [text "Human vs Human"],
-      button [onClick (SelectGameType HvC)] [text "Human vs Computer"]
-      ]
-    InProgress model -> div [] [
-      h1 [] [ text "Tic Tac Toe" ],
-      showGameState model,
-      showBoard model,
-      showReset
-    ]
+    NotStarted -> showGameSelection
+    InProgress model -> showGame model
