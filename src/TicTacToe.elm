@@ -58,11 +58,10 @@ view model =
 getNextPlayer : (Player, GameType) -> (Player, GameType)
 getNextPlayer nextPlayerTuple =
   case nextPlayerTuple of
-    (_, HvH) -> (Human, HvH)
-    (_, CvC) -> (Ai, CvC)
     (Human, HvC) -> (Ai, HvC)
     (Ai, HvC) -> (Human, HvC)
     (Human, CvH) -> (Ai, CvH)
     (Ai, CvH) -> (Human, CvH)
+    (a, b) -> (a, b)
 
 
