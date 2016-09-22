@@ -48,10 +48,8 @@ all =
 
          , test "An unstarted game can be started after making a selection" <|
             \() ->
-              let
-                game = {playState = NotStarted, nextPlayer = (Human, HvH)}
-              in
-                update (SelectGameType HvH) game
+                {playState = NotStarted, nextPlayer = (Human, HvH)}
+                  |> update (SelectGameType HvH)
                   |> Expect.equal {playState = InProgress (Game.new (Board.new 3)), nextPlayer = (Human, HvH)}
 
          , test "A dumb computer move can be made" <|
@@ -81,6 +79,17 @@ all =
                          Expect.equal ((Just (Just X)), (Just (Just O))) marks
                     _ -> Expect.fail "expected game to be in progress"
 
+         , test "Computer move will occur automatically in Computer vs Human" <|
+            \() ->
+              let
+                game = {playState = NotStarted, nextPlayer = (Human, HvH)}
+                updatedGame = update (SelectGameType CvH) game
+              in
+                case updatedGame.playState of
+                  InProgress game -> board game
+                      |> get 0
+                      |> Expect.equal (Just (Just X))
+                  _ -> Expect.fail "expected game to be in progress"
         ]
 
 

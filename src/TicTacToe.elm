@@ -35,6 +35,7 @@ update msg model =
 
     SelectGameType CvH ->
       {playState = InProgress (Game.new (Board.new 3)), nextPlayer = (Ai, CvH)}
+        |> update ComputerMove
 
     HumanMove position ->
       case model.playState of

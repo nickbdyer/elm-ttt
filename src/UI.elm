@@ -25,7 +25,8 @@ showGameSelection : Html Msg
 showGameSelection =
   div [] [
     button [onClick (SelectGameType HvH)] [text "Human vs Human"],
-    button [onClick (SelectGameType HvC)] [text "Human vs Computer"]
+    button [onClick (SelectGameType HvC)] [text "Human vs Computer"],
+    button [onClick (SelectGameType CvH)] [text "Computer vs Human"]
     ]
 
 showGameState : Game -> Html a
