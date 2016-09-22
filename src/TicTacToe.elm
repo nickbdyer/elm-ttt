@@ -33,14 +33,29 @@ update msg model =
     SelectGameType HvC ->
       {playState = InProgress (Game.new (Board.new 3)), nextPlayer = (Human, HvC)}
 
+    SelectGameType CvH ->
+      {playState = InProgress (Game.new (Board.new 3)), nextPlayer = (Ai, CvH)}
+
     HumanMove position ->
       case model.playState of
-        InProgress game -> {playState = InProgress (takeTurn (Just position) game), nextPlayer = (getNextPlayer model.nextPlayer)}
+        InProgress game ->
+            let
+              newModel = {playState = InProgress (takeTurn (Just position) game), nextPlayer = (getNextPlayer model.nextPlayer)}
+            in
+              case newModel.nextPlayer of
+                (Ai, _) -> update ComputerMove newModel
+                _ -> newModel
         NotStarted -> {playState = NotStarted, nextPlayer = (Human, HvH)}
 
     ComputerMove ->
       case model.playState of
-        InProgress game -> {playState = InProgress (takeTurn (chooseMove game.board) game), nextPlayer = (getNextPlayer model.nextPlayer)}
+        InProgress game ->
+            let
+              newModel = {playState = InProgress (takeTurn (chooseMove game.board) game), nextPlayer = (getNextPlayer model.nextPlayer)}
+            in
+              case newModel.nextPlayer of
+                (Ai, _) -> update ComputerMove newModel
+                _ -> newModel
         NotStarted -> {playState = NotStarted, nextPlayer = (Human, HvH)}
 
     _ -> {playState = NotStarted, nextPlayer = (Human, HvH)}

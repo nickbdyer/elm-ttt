@@ -66,6 +66,21 @@ all =
                       |> Expect.equal (Just (Just X))
                     _ -> Expect.fail "expected game to be in progress"
 
+         , test "Computer move will occur automatically in Human vs Computer" <|
+            \() ->
+              let
+                game = (Game.new (Board.new 3))
+                updatedGame = update (ComputerMove) {playState = InProgress game, nextPlayer = (Human, HvC)}
+              in
+                  case updatedGame.playState of
+                    InProgress game ->
+                        let
+                          grid = board game
+                          marks = (get 0 grid, get 1 grid)
+                        in
+                         Expect.equal ((Just (Just X)), (Just (Just O))) marks
+                    _ -> Expect.fail "expected game to be in progress"
+
         ]
 
 
