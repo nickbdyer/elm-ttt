@@ -13,5 +13,9 @@ chooseMove board =
      Just (a, b) -> Just a
      Nothing -> Nothing
 
+perfectMove : Board -> Maybe Int
+perfectMove board =
+  Just 0
+
 
 
