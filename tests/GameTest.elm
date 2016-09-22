@@ -55,6 +55,7 @@ all =
               (Game.new (createOWinningBoard))
                 |> retrieveState
                 |> Expect.equal (Winner O)
+
         ]
 
 

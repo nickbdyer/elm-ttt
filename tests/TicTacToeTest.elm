@@ -3,7 +3,7 @@ module TicTacToeTest exposing (..)
 import Test exposing (..)
 import Expect
 
-import TicTacToe exposing (PlayState(..), update)
+import TicTacToe exposing (PlayState(..), Player(..), update)
 import Array exposing (get)
 import Game exposing (GameType(..), board)
 import Board exposing (Mark(..), full)
@@ -17,7 +17,7 @@ all =
             \() ->
               let
                 game = (Game.new (Board.new 3))
-                updatedGame = update (HumanMove 5) {playState = InProgress game}
+                updatedGame = update (HumanMove 5) {playState = InProgress game, nextPlayer = (Human, HvH)}
               in
                   case updatedGame.playState of
                     InProgress game -> board game
@@ -28,7 +28,7 @@ all =
         , test "When a cell is clicked twice, the first move remains" <|
             \() ->
               let
-                game = {playState = InProgress (Game.new (Board.new 3))}
+                game = {playState = InProgress (Game.new (Board.new 3)), nextPlayer = (Human, HvH)}
                 updatedGame = update (HumanMove 5) (update (HumanMove 5) game)
               in
                 case updatedGame.playState of
@@ -42,23 +42,23 @@ all =
               let
                 game = (Game.new (Board.new 3))
               in
-                update (HumanMove 5) {playState = InProgress game}
+                update (HumanMove 5) {playState = InProgress game, nextPlayer = (Human, HvH)}
                   |> update Reset
-                  |> Expect.equal {playState = NotStarted}
+                  |> Expect.equal {playState = NotStarted, nextPlayer = (Human, HvH)}
 
          , test "An unstarted game can be started after making a selection" <|
             \() ->
               let
-                game = {playState = NotStarted}
+                game = {playState = NotStarted, nextPlayer = (Human, HvH)}
               in
                 update (SelectGameType HvH) game
-                  |> Expect.equal {playState = InProgress (Game.new (Board.new 3))}
+                  |> Expect.equal {playState = InProgress (Game.new (Board.new 3)), nextPlayer = (Human, HvH)}
 
          , test "A dumb computer move can be made" <|
             \() ->
               let
                 game = (Game.new (Board.new 3))
-                updatedGame = update (ComputerMove) {playState = InProgress game}
+                updatedGame = update (ComputerMove) {playState = InProgress game, nextPlayer = (Human, HvH)}
               in
                   case updatedGame.playState of
                     InProgress game -> board game
