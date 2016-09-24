@@ -1,4 +1,4 @@
-module Board exposing (Board, BoardState(..), Mark(..), new, mark, toArray, full, state, winner)
+module Board exposing (Board, BoardState(..), Mark(..), new, mark, empty, toArray, full, state, winner)
 
 import Array exposing (..)
 
@@ -23,6 +23,11 @@ mark position symbol board =
 toArray : Board -> Array (Maybe Mark)
 toArray board =
   board
+
+
+empty : Board -> Bool
+empty board =
+  List.all (\cell -> cell == Nothing) (toList board)
 
 
 full : Board -> Bool

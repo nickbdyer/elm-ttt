@@ -1,6 +1,6 @@
 module Computer exposing (..)
 
-import Board exposing (Board, Mark(..), BoardState(..), toArray, state)
+import Board exposing (Board, Mark(..), BoardState(..), toArray, empty, state)
 import Game exposing (Game)
 import Array exposing (..)
 
@@ -23,7 +23,7 @@ perfectMove game =
     board = Game.board game
     player = Game.currentPlayer game
   in
-    Just (snd (bestMove board player))
+    if Board.empty board then Just 0 else Just (snd (bestMove board player))
 
 
 bestMove : Board -> Mark -> (Int, Int)

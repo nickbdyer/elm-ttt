@@ -27,11 +27,11 @@ all =
               |> Computer.perfectMove
               |> Expect.equal (Just 8)
 
-        --, test "A computer will choose a the top left corner if the board is empty" <|
-          --\() ->
-            --Game.new (Board.new 3)
-              --|> Computer.perfectMove
-              --|> Expect.equal (Just 0)
+        , test "A computer will choose a the top left corner if the board is empty" <|
+          \() ->
+            Game.new (Board.new 3)
+              |> Computer.perfectMove
+              |> Expect.equal (Just 0)
 
         , test "will play center if the first player took a corner" <|
           \() ->
