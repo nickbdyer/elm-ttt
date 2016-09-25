@@ -58,5 +58,29 @@ all =
             \() ->
               winner createDrawBoard
                 |> Expect.notEqual (Just O)
+
+        , test "Board knows when the board is a draw" <|
+            \() ->
+              createDrawBoard
+                |> state
+                |> Expect.equal Draw
+
+        , test "Board knows when the board has X winner" <|
+            \() ->
+              createXWinningBoard
+                |> state
+                |> Expect.equal (Winner X)
+
+        , test "Board knows when the board has O winner" <|
+            \() ->
+              createOWinningBoard
+                |> state
+                |> Expect.equal (Winner O)
+
+        , test "Board knows when the board is inplay" <|
+            \() ->
+              Board.new 3
+                |> state
+                |> Expect.equal Ongoing
         ]
 
