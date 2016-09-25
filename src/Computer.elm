@@ -4,8 +4,11 @@ import Board exposing (Board, Mark(..), BoardState(..), toArray, empty, state)
 import Game exposing (Game, opponent)
 import Array exposing (..)
 
+type alias Score = Int
+type alias Move = Int
+type alias ScoreMove = (Score, Move)
 
-chooseMove : Game -> Maybe Int
+chooseMove : Game -> Maybe Move
 chooseMove game =
   let
     board = game.board
@@ -17,7 +20,7 @@ chooseMove game =
      Nothing -> Nothing
 
 
-perfectMove : Game -> Maybe Int
+perfectMove : Game -> Maybe Move
 perfectMove game =
   let
     board = Game.board game
@@ -26,7 +29,7 @@ perfectMove game =
     if Board.empty board then Just 0 else Just (snd (bestMove board player))
 
 
-bestMove : Board -> Mark -> (Int, Int)
+bestMove : Board -> Mark -> ScoreMove
 bestMove board player =
   let
     availableMoves = possible_moves board
@@ -37,7 +40,7 @@ bestMove board player =
     bestMove
 
 
-score_move : Board -> Mark -> Int -> (Int, Int)
+score_move : Board -> Mark -> Move -> ScoreMove
 score_move board player place =
   let
       next_board = Board.mark place player board
@@ -49,7 +52,7 @@ score_move board player place =
         Winner x -> if x == player then (scoredMove, place) else (-scoredMove, place)
 
 
-opponentScore : Board -> Mark -> Int
+opponentScore : Board -> Mark -> Score
 opponentScore board player =
   let
     (score, _) = bestMove board (opponent player)
@@ -57,12 +60,12 @@ opponentScore board player =
     score
 
 
-score : Board -> Int
+score : Board -> Score
 score board =
   Array.length (possible_moves board) + 50
 
 
-possible_moves : Board -> Array Int
+possible_moves : Board -> Array Move
 possible_moves board =
   Array.indexedMap (,) (toArray board)
     |> Array.filter (\elem -> snd elem == Nothing)

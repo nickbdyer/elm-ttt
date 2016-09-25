@@ -18,7 +18,7 @@ all =
                 |> Computer.chooseMove
                 |> Expect.equal (Just 0)
 
-        , test "will play center if the first player took a corner" <|
+        , test "will make simple move to stop win" <|
           \() ->
             {board = (Array.fromList [Just O, Just X, Just O,
                                       Nothing, Just X, Just O,
