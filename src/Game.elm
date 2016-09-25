@@ -22,6 +22,7 @@ takeTurn position game =
                                   currentPlayer = opponent (currentPlayer game) }
       _ -> game
 
+
 opponent : Mark -> Mark
 opponent mark =
   case mark of

@@ -1,7 +1,7 @@
 module Computer exposing (..)
 
 import Board exposing (Board, Mark(..), BoardState(..), toArray, empty, state)
-import Game exposing (Game)
+import Game exposing (Game, opponent)
 import Array exposing (..)
 
 
@@ -55,13 +55,6 @@ opponentScore board player =
     (score, _) = bestMove board (opponent player)
   in
     score
-
-
-opponent : Mark -> Mark
-opponent mark =
-  case mark of
-    X -> O
-    O -> X
 
 
 score : Board -> Int
