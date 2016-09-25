@@ -6,7 +6,7 @@ import Html.App as Html
 import Board exposing (Board, Mark(..), new)
 import UI exposing (Msg(..), showGameSelection, showGame)
 import Game exposing (Game, GameType(..), takeTurn)
-import Computer exposing (chooseMove)
+import Computer exposing (perfectMove)
 
 main =
   Html.beginnerProgram { model = initialModel, update = update, view = view }
@@ -52,7 +52,7 @@ update msg model =
       case model.playState of
         InProgress game ->
             let
-              newModel = {playState = InProgress (takeTurn (chooseMove game) game), nextPlayer = (getNextPlayer model.nextPlayer)}
+              newModel = {playState = InProgress (takeTurn (perfectMove game) game), nextPlayer = (getNextPlayer model.nextPlayer)}
             in
               case newModel.nextPlayer of
                 (Ai, _) -> update ComputerMove newModel

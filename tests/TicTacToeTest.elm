@@ -74,7 +74,7 @@ all =
                     InProgress game ->
                         let
                           grid = board game
-                          marks = (get 0 grid, get 1 grid)
+                          marks = (get 0 grid, get 4 grid)
                         in
                          Expect.equal ((Just (Just X)), (Just (Just O))) marks
                     _ -> Expect.fail "expected game to be in progress"
