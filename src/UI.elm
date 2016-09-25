@@ -5,9 +5,9 @@ import Html.App as Html
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (value, attribute)
 
-import Board exposing (Board, Mark(..), toArray)
+import Board exposing (Board, BoardState(..), Mark(..), toArray, state)
 import Array exposing (..)
-import Game exposing (Game, GameState(..), GameType(..), retrieveState, board, currentPlayer)
+import Game exposing (Game, GameType(..), board, currentPlayer)
 
 type Msg = HumanMove Int | ComputerMove | Reset | SelectGameType GameType
 type alias Row = List (Int, Maybe Mark)
@@ -16,7 +16,7 @@ showGame : Game -> Html Msg
 showGame game =
   div [] [
     h1 [] [ text "Tic Tac Toe" ],
-    showGameState game,
+    showBoardState game,
     showBoard game,
     showReset
   ]
@@ -29,12 +29,12 @@ showGameSelection =
     button [attribute "class" ("gameType"), onClick (SelectGameType CvH)] [text "Computer vs Human"]
     ]
 
-showGameState : Game -> Html a
-showGameState game =
-  case (retrieveState game) of
+showBoardState : Game -> Html a
+showBoardState game =
+  case (state (board game)) of
     Winner mark -> h3 [] [text ("The winner is " ++ (toString mark))]
     Draw -> h3 [] [text "It's a draw" ]
-    InPlay -> h3 [] [text ((toString (currentPlayer game)) ++ " it is your turn")]
+    Ongoing -> h3 [] [text ((toString (currentPlayer game)) ++ " it is your turn")]
 
 
 showReset : Html Msg
@@ -44,21 +44,21 @@ showReset =
 
 showBoard : Game -> Html Msg
 showBoard game =
-  table [] (showRows (board game) (retrieveState game))
+  table [] (showRows (board game) (state (board game)))
 
 
-showRows : Array (Maybe Mark) -> GameState -> List (Html Msg)
+showRows : Array (Maybe Mark) -> BoardState -> List (Html Msg)
 showRows board state =
     List.map (\line -> tr [] (showCells line state)) (sliceInRows board)
 
 
-showCells : Row -> GameState -> List (Html Msg)
+showCells : Row -> BoardState -> List (Html Msg)
 showCells line state =
   line
     |> List.map (\(index, cell) ->
       case (cell, state) of
         (Just symbol, _ ) -> td [] [button [] [text (toString symbol)]]
-        (Nothing, InPlay) -> td [] [button [onClick (HumanMove index)] [text ""]]
+        (Nothing, Ongoing) -> td [] [button [onClick (HumanMove index)] [text ""]]
         (Nothing, _ )  -> td [] [button [] [text ""]])
 
 
