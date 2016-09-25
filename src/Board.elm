@@ -1,4 +1,4 @@
-module Board exposing (Board, Mark(..), new, mark, toArray, full, winner)
+module Board exposing (Board, BoardState(..), Mark(..), new, mark, empty, toArray, full, state, winner)
 
 import Array exposing (..)
 
@@ -7,11 +7,11 @@ import Lines exposing (getRows, getColumns, getDiagonals)
 type Mark = X | O
 type alias Board = Array (Maybe Mark)
 
+type BoardState = Draw | Winner Mark | Ongoing
 
 new : Int -> Board
 new width =
   repeat (width^2) Nothing
-
 
 mark : Int -> Mark -> Board -> Board
 mark position symbol board =
@@ -25,6 +25,11 @@ toArray board =
   board
 
 
+empty : Board -> Bool
+empty board =
+  List.all (\cell -> cell == Nothing) (toList board)
+
+
 full : Board -> Bool
 full board =
   List.all isMarkedCell (toList board)
@@ -35,6 +40,18 @@ isMarkedCell mark =
   case mark of
     Just _ -> True
     Nothing -> False
+
+
+state : Board -> BoardState
+state board =
+  let
+    win = winner board
+    draw = full board
+  in
+    case (win, draw) of
+      (Just x, _) -> Winner x
+      (_, True) -> Draw
+      _ -> Ongoing
 
 
 winner : Board -> Maybe Mark

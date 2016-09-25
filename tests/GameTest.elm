@@ -48,30 +48,6 @@ all =
                 takeTurn (Just 4) game
                 |> Expect.equal game
 
-        , test "Game knows when the game is inplay" <|
-            \() ->
-              (Game.new (Board.new 3))
-                |> retrieveState
-                |> Expect.equal InPlay
-
-        , test "Game knows when the game is a draw" <|
-            \() ->
-              (Game.new (createDrawBoard))
-                |> retrieveState
-                |> Expect.equal Draw
-
-        , test "Game knows when the game has X winner" <|
-            \() ->
-              (Game.new (createXWinningBoard))
-                |> retrieveState
-                |> Expect.equal (Winner X)
-
-        , test "Game knows when the game has O winner" <|
-            \() ->
-              (Game.new (createOWinningBoard))
-                |> retrieveState
-                |> Expect.equal (Winner O)
-
         ]
 
 
